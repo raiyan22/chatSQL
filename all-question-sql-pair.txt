@@ -1,0 +1,637 @@
+---------------------------------------------------------------------------------------------------------------------
+1
+---------------------------------------------------------------------------------------------------------------------
+Find the average rental rate of films.
+film
+film_actor, film_category
+
+SELECT AVG(rental_rate) AS average_rental_rate FROM film;
+.
+---------------------------------------------------------------------------------------------------------------------
+2
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the names of cities and their corresponding countries.
+city - country
+
+SELECT city.city, country.country
+FROM city
+INNER JOIN country ON city.country_id = country.country_id;
+.
+---------------------------------------------------------------------------------------------------------------------
+3
+---------------------------------------------------------------------------------------------------------------------
+List the titles of films released in the year 2022.
+film
+
+SELECT title FROM film WHERE release_year = '2022' LIMIT 20;
+.
+---------------------------------------------------------------------------------------------------------------------
+4
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the actor names for a given film title 'Dance in the Fire'.
+actor - film - film_actor
+
+SELECT actor.first_name, actor.last_name
+FROM actor
+INNER JOIN film_actor ON actor.actor_id = film_actor.actor_id
+INNER JOIN film ON film_actor.film_id = film.film_id
+WHERE film.title = 'Dance in the Fire';
+.
+---------------------------------------------------------------------------------------------------------------------
+5
+---------------------------------------------------------------------------------------------------------------------
+List the staff members who are currently active.
+staff
+
+SELECT first_name, last_name
+FROM staff
+WHERE active = TRUE
+LIMIT 20;
+.
+---------------------------------------------------------------------------------------------------------------------
+6
+---------------------------------------------------------------------------------------------------------------------
+Give name of the actor with id and count of the number of movies each actor has made. show the actor who has made the maximum number of movies first.
+actor - film_actor - film
+
+SELECT a.actor_id, CONCAT(a.first_name,' ',a.last_name) as actor_name,
+COUNT(*) movie_count
+FROM actor a
+JOIN film_actor fa ON a.actor_id=fa.actor_id
+JOIN film f ON f.film_id=fa.film_id
+GROUP BY 1,2
+ORDER BY COUNT(*)DESC;
+.
+---------------------------------------------------------------------------------------------------------------------
+7
+---------------------------------------------------------------------------------------------------------------------
+List the unique categories for each film.
+film - film_category - category
+
+SELECT film.title, category.name
+FROM film
+INNER JOIN film_category ON film.film_id = film_category.film_id
+INNER JOIN category ON film_category.category_id = category.category_id;
+.
+---------------------------------------------------------------------------------------------------------------------
+8
+---------------------------------------------------------------------------------------------------------------------
+Get the number of films in each language.
+language - film
+
+SELECT language.name, COUNT(film.film_id) AS film_count
+FROM film
+INNER JOIN language ON film.language_id = language.language_id
+GROUP BY language.name;
+.
+---------------------------------------------------------------------------------------------------------------------
+9
+---------------------------------------------------------------------------------------------------------------------
+Find the total inventory for each store.
+store - inventory	
+
+SELECT store.store_id, SUM(inventory.inventory_id) AS total_inventory
+FROM store
+INNER JOIN inventory ON store.store_id = inventory.store_id
+GROUP BY store.store_id;
+.
+---------------------------------------------------------------------------------------------------------------------
+10
+---------------------------------------------------------------------------------------------------------------------
+What is the most recent payment made by a customer with a customer_id 101?
+payment - customer
+
+SELECT 
+    c.customer_id, 
+    CONCAT(c.first_name, ' ', c.last_name) AS customer_name, 
+    MAX(p.payment_date) AS most_recent_payment_date FROM customer c LEFT JOIN payment p ON c.customer_id = p.customer_id
+WHERE c.customer_id = '101' GROUP BY c.customer_id, customer_name;
+.
+
+---------------------------------------------------------------------------------------------------------------------
+11
+---------------------------------------------------------------------------------------------------------------------
+Get the rental records for films with a rental rate greater than $5.
+rental - inventory - film 
+
+SELECT rental.rental_id, rental.rental_date, film.title
+FROM rental
+INNER JOIN inventory ON rental.inventory_id = inventory.inventory_id
+INNER JOIN film ON inventory.film_id = film.film_id
+WHERE film.rental_rate > 5;
+
+---------------------------------------------------------------------------------------------------------------------
+12
+---------------------------------------------------------------------------------------------------------------------
+List the films that are not available in the inventory.
+film - inventory
+
+SELECT film.title
+FROM film
+LEFT JOIN inventory ON film.film_id = inventory.film_id
+WHERE inventory.inventory_id IS NULL;
+.
+---------------------------------------------------------------------------------------------------------------------
+13
+---------------------------------------------------------------------------------------------------------------------
+Find the country with the highest number of cities
+country - city
+
+SELECT country.country, COUNT(city.city_id) AS city_count
+FROM country
+INNER JOIN city ON country.country_id = city.country_id
+GROUP BY country.country
+ORDER BY city_count DESC
+LIMIT 1;
+.
+---------------------------------------------------------------------------------------------------------------------
+14
+---------------------------------------------------------------------------------------------------------------------
+List the top 10 longest films.
+film
+
+SELECT * FROM film
+ORDER BY length DESC
+LIMIT 10;
+.
+---------------------------------------------------------------------------------------------------------------------
+15
+---------------------------------------------------------------------------------------------------------------------
+Find the customers who have never made a payment.
+customer - payment
+
+SELECT c.customer_id, CONCAT(c.first_name, ' ', c.last_name) AS customer_name
+FROM customer c
+LEFT JOIN payment p ON c.customer_id = p.customer_id
+WHERE p.payment_id IS NULL;
+.
+---------------------------------------------------------------------------------------------------------------------
+16
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the customer with the highest number of rentals.
+customer - rental
+
+SELECT c.customer_id, CONCAT(c.first_name, ' ', c.last_name) AS customer_name, COUNT(r.rental_id) AS rental_count
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+GROUP BY c.customer_id, customer_name
+ORDER BY rental_count DESC
+LIMIT 1;
+.
+---------------------------------------------------------------------------------------------------------------------
+17
+---------------------------------------------------------------------------------------------------------------------
+Find the actor who appeared in the most films
+actor - film_actor
+
+SELECT a.actor_id, CONCAT(a.first_name, ' ', a.last_name) AS actor_name, COUNT(fa.film_id) AS film_count
+FROM actor a
+JOIN film_actor fa ON a.actor_id = fa.actor_id
+GROUP BY a.actor_id, actor_name
+ORDER BY film_count DESC
+LIMIT 1;
+.
+---------------------------------------------------------------------------------------------------------------------
+18
+---------------------------------------------------------------------------------------------------------------------
+Calculate the total revenue generated by the store with ID 1.
+payment - rental
+
+SELECT SUM(p.amount) AS total_revenue
+FROM payment p
+JOIN rental r ON p.rental_id = r.rental_id
+WHERE r.staff_id = 1;
+.
+---------------------------------------------------------------------------------------------------------------------
+19
+---------------------------------------------------------------------------------------------------------------------
+Find the films that were not rented by any customer.
+customer - rental
+
+SELECT DISTINCT c.customer_id, CONCAT(c.first_name, ' ', c.last_name) AS customer_name
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+WHERE c.activebool = FALSE;
+.
+---------------------------------------------------------------------------------------------------------------------
+20
+---------------------------------------------------------------------------------------------------------------------
+Find the films that were rented more than once on the same day.
+rental
+
+SELECT r1.rental_id, r1.rental_date, r1.inventory_id, r1.customer_id
+FROM rental r1
+JOIN (
+    SELECT rental_date, inventory_id, customer_id, COUNT(*) AS rental_count
+    FROM rental
+    GROUP BY rental_date, inventory_id, customer_id
+    HAVING COUNT(*) > 1
+) r2 ON r1.rental_date = r2.rental_date
+   AND r1.inventory_id = r2.inventory_id
+   AND r1.customer_id = r2.customer_id;
+.
+---------------------------------------------------------------------------------------------------------------------
+21
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the top 5 customers who have paid the most in total
+customer - payment
+
+SELECT c.customer_id, c.first_name, c.last_name, SUM(p.amount) AS total_payment
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+ORDER BY total_payment DESC
+LIMIT 5;
+.
+---------------------------------------------------------------------------------------------------------------------
+22
+---------------------------------------------------------------------------------------------------------------------
+List the customers who have made payments within date range '2023-01-01' to '2023-02-28'
+customer - payment
+
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+WHERE p.payment_date BETWEEN '2023-01-01' AND '2023-02-28';
+.
+---------------------------------------------------------------------------------------------------------------------
+23
+---------------------------------------------------------------------------------------------------------------------
+Find the total number of payments made each month in the year 2023.
+payment
+
+SELECT DATE_TRUNC('month', payment_date) AS month, COUNT(payment_id) AS payment_count
+FROM payment
+WHERE EXTRACT(YEAR FROM payment_date) = 2023
+GROUP BY month
+ORDER BY month;
+.
+---------------------------------------------------------------------------------------------------------------------
+24
+---------------------------------------------------------------------------------------------------------------------
+List the customers who have made payments on the current date.
+customer - payment
+
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+WHERE DATE(p.payment_date) = CURRENT_DATE
+LIMIT 20;
+.
+---------------------------------------------------------------------------------------------------------------------
+25
+---------------------------------------------------------------------------------------------------------------------
+Find the average payment amount made by each customer.
+customer - payment
+
+SELECT c.customer_id, c.first_name, c.last_name, AVG(p.amount) AS avg_payment
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name;
+
+.
+---------------------------------------------------------------------------------------------------------------------
+26
+---------------------------------------------------------------------------------------------------------------------
+List the top 10 customers who have made the highest total payments
+customer, payment.
+
+SELECT c.customer_id, c.first_name, c.last_name, SUM(p.amount) AS total_payment
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+ORDER BY total_payment DESC
+LIMIT 10;
+.
+---------------------------------------------------------------------------------------------------------------------
+27
+---------------------------------------------------------------------------------------------------------------------
+Find the total revenue generated from all payments
+payment
+
+SELECT SUM(amount) AS total_revenue
+FROM payment;
+.
+---------------------------------------------------------------------------------------------------------------------
+28
+---------------------------------------------------------------------------------------------------------------------
+Which Category of Family Friendly films had the highest total Rental Orders ?
+film, rental, film_category, category, inventory. 
+
+WITH result_table AS ( 
+  SELECT f.title, cat.name, COUNT(re.rental_id) AS num_rentals 
+  FROM 
+    film f 
+    JOIN film_category fc ON f.film_id = fc.film_id 
+    JOIN category cat ON fc.category_id = cat.category_id 
+    AND cat.name IN (
+      'Animation', 'Children', 'Classics', 
+      'Comedy', 'Family', 'Music'
+    ) 
+    JOIN inventory inv ON inv.film_id = f.film_id 
+    JOIN rental re ON re.inventory_id = inv.inventory_id 
+  GROUP BY f.title, cat.name ) 
+SELECT name, SUM(num_rentals) as total 
+FROM (SELECT * FROM result_table ) as distinct_result 
+GROUP BY name 
+ORDER BY SUM(num_rentals) DESC;
+.
+---------------------------------------------------------------------------------------------------------------------
+29
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the customers who have made payments for films that belong to 'Comedy' category
+
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film_category fc ON i.film_id = fc.film_id
+JOIN category cat ON fc.category_id = cat.category_id
+WHERE cat.name = 'Comedy';
+.
+---------------------------------------------------------------------------------------------------------------------
+30
+---------------------------------------------------------------------------------------------------------------------
+Find the customers who have made payments for films that have rating 'PG-13'
+
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id
+WHERE f.rating = 'PG-13';
+.
+
+---------------------------------------------------------------------------------------------------------------------
+31
+---------------------------------------------------------------------------------------------------------------------
+Find the customers who have made payments for films with a duration greater than 120 minutes
+customer, rental, inventory, film
+
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id
+WHERE f.length > 120;
+.
+---------------------------------------------------------------------------------------------------------------------
+32
+---------------------------------------------------------------------------------------------------------------------
+List all the films that have not been rented yet.
+film, inventory, rental.
+
+SELECT f.film_id, f.title
+FROM film f
+LEFT JOIN inventory i ON f.film_id = i.film_id
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id
+WHERE r.rental_id IS NULL;
+.
+---------------------------------------------------------------------------------------------------------------------
+33
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the films that have not been rented in the last 30 days.
+film, inventory, rental.
+
+SELECT f.film_id, f.title
+FROM film f
+LEFT JOIN inventory i ON f.film_id = i.film_id
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id
+WHERE r.rental_date IS NULL OR r.rental_date < CURRENT_DATE - INTERVAL '30 days';
+.
+---------------------------------------------------------------------------------------------------------------------
+34
+---------------------------------------------------------------------------------------------------------------------
+Find the total revenue generated from renting each film, ordered from highest to lowest revenue.
+film, inventory, rental, payment.
+
+SELECT f.film_id, f.title, SUM(p.amount) AS total_revenue
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+JOIN payment p ON r.rental_id = p.rental_id
+GROUP BY f.film_id, f.title
+ORDER BY total_revenue DESC;
+.
+---------------------------------------------------------------------------------------------------------------------
+35
+---------------------------------------------------------------------------------------------------------------------
+List the films that are in the 'Action' category and have a rating of 'R'.
+film, category, film_category.
+
+SELECT f.film_id, f.title
+FROM film f
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category c ON fc.category_id = c.category_id
+WHERE c.name = 'Action'
+AND f.rating = 'R';
+.
+---------------------------------------------------------------------------------------------------------------------
+36
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the films that have been rented the least and have a rating of 'PG'.
+film, inventory, rental.
+
+SELECT f.film_id, f.title, COUNT(r.rental_id) AS rental_count
+FROM film f
+LEFT JOIN inventory i ON f.film_id = i.film_id
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id
+WHERE f.rating = 'PG'
+GROUP BY f.film_id, f.title
+ORDER BY rental_count ASC;
+.
+---------------------------------------------------------------------------------------------------------------------
+37
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the films that have the highest rental rate.
+film
+
+SELECT title, rental_rate
+FROM film
+WHERE rental_rate = (
+    SELECT MAX(rental_rate)
+    FROM film
+);
+.
+---------------------------------------------------------------------------------------------------------------------
+38
+---------------------------------------------------------------------------------------------------------------------
+Find the films with a rental rate greater than $5.
+film
+
+SELECT * FROM film WHERE rental_rate > 5.0;
+.
+---------------------------------------------------------------------------------------------------------------------
+39
+---------------------------------------------------------------------------------------------------------------------
+List all unique film ratings available.
+film
+
+SELECT DISTINCT rating FROM film;
+.
+---------------------------------------------------------------------------------------------------------------------
+40
+---------------------------------------------------------------------------------------------------------------------
+Find the customer who made the highest payment.
+
+SELECT c.customer_id, CONCAT(c.first_name, ' ', c.last_name) AS customer_name, MAX(p.amount) AS highest_payment
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id, customer_name
+ORDER BY highest_payment DESC
+LIMIT 1;
+.
+---------------------------------------------------------------------------------------------------------------------
+41
+---------------------------------------------------------------------------------------------------------------------
+List the cities and their corresponding countries
+city, country.
+
+SELECT ci.city, co.country
+FROM city ci
+JOIN country co ON ci.country_id = co.country_id;
+.
+---------------------------------------------------------------------------------------------------------------------
+42
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the customers who have made payments greater than $50
+customer, payment
+
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+WHERE p.amount > 50.00;
+.
+---------------------------------------------------------------------------------------------------------------------
+43
+---------------------------------------------------------------------------------------------------------------------
+Find the top 10 most rented film categories and the number of times they were rented
+category, film_category, film, inventory, rental.
+
+SELECT c.name AS category_name, COUNT(r.rental_id) AS rental_count
+FROM category c
+JOIN film_category fc ON c.category_id = fc.category_id
+JOIN film f ON fc.film_id = f.film_id
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+GROUP BY c.name
+ORDER BY rental_count DESC
+LIMIT 10;
+.
+---------------------------------------------------------------------------------------------------------------------
+44
+---------------------------------------------------------------------------------------------------------------------
+List the actors who have never appeared in a 'Horror' film.
+actor, category, film_category, film_actor.
+
+SELECT a.first_name, a.last_name
+FROM actor a
+WHERE a.actor_id NOT IN (
+    SELECT fa.actor_id
+    FROM film_actor fa
+    JOIN film_category fc ON fa.film_id = fc.film_id
+    JOIN category c ON fc.category_id = c.category_id
+    WHERE c.name = 'Horror'
+);
+.
+---------------------------------------------------------------------------------------------------------------------
+45
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the names of actors who were filmed in the movie 'Factory Dragon'
+film, film_actor, actor.
+
+SELECT actor.first_name, actor.last_name
+FROM actor
+JOIN film_actor ON actor.actor_id = film_actor.actor_id
+JOIN film ON film_actor.film_id = film.film_id
+WHERE film.title = 'Factory Dragon';
+.
+---------------------------------------------------------------------------------------------------------------------
+46
+---------------------------------------------------------------------------------------------------------------------
+Find the top 5 actors who have appeared in the most films.
+actor, film_actor.
+
+SELECT actor.first_name, actor.last_name, COUNT(film_actor.film_id) AS film_count
+FROM actor
+JOIN film_actor ON actor.actor_id = film_actor.actor_id
+GROUP BY actor.first_name, actor.last_name
+ORDER BY film_count DESC
+LIMIT 5;
+.
+---------------------------------------------------------------------------------------------------------------------
+47
+---------------------------------------------------------------------------------------------------------------------
+List films that have the same actors as the movie 'Date Speed'.
+film, film_actor. 
+film.film_id, film.title, film_actor.film_id, film_actor.actor_id.  
+
+SELECT DISTINCT film.title
+FROM film
+JOIN film_actor ON film.film_id = film_actor.film_id
+WHERE film_actor.actor_id IN (
+    SELECT actor_id
+    FROM film
+    JOIN film_actor ON film.film_id = film_actor.film_id
+    WHERE film.title = 'Date Speed'
+) AND film.title != 'Date Speed';
+.
+
+---------------------------------------------------------------------------------------------------------------------
+48
+---------------------------------------------------------------------------------------------------------------------
+Find the actors who have appeared in films with the highest rental rates.
+actor, film_actor, film, rental
+actor.first_name, actor.last_name, actor.actor_id, film.rental_rate, film_actor.actor_id, film_actor.film_id, film.film_id
+
+SELECT DISTINCT actor.first_name, actor.last_name
+FROM actor
+JOIN film_actor ON actor.actor_id = film_actor.actor_id
+JOIN film ON film_actor.film_id = film.film_id
+WHERE film.rental_rate = (SELECT MAX(rental_rate)FROM film);
+.
+---------------------------------------------------------------------------------------------------------------------
+49
+---------------------------------------------------------------------------------------------------------------------
+Find the actors who have appeared in films in which they also directed
+actor, film, film_actor
+actor.first_name, actor.last_name, actor.actor_id, film.director_id, film_actor.actor_id, film_actor.film_id, film.film_id
+
+SELECT DISTINCT actor.first_name, actor.last_name
+FROM actor
+JOIN film_actor ON actor.actor_id = film_actor.actor_id
+JOIN film ON film_actor.film_id = film.film_id
+WHERE actor.actor_id IN (
+    SELECT DISTINCT actor_id
+    FROM film
+    WHERE film.director_id = actor.actor_id
+);
+.
+---------------------------------------------------------------------------------------------------------------------
+50
+---------------------------------------------------------------------------------------------------------------------
+Find the number of films each actor has appeared in
+actor, film_actor
+actor.first_name, actor.last_name, actor.actor_id, film_actor.film_id, film_actor.actor_id
+
+SELECT actor.first_name, actor.last_name, COUNT(film_actor.film_id) AS film_count
+FROM actor
+LEFT JOIN film_actor ON actor.actor_id = film_actor.actor_id
+GROUP BY actor.first_name, actor.last_name
+ORDER BY film_count DESC;
+
+---------------------------------------------------------------------------------------------------------------------
+51
+---------------------------------------------------------------------------------------------------------------------
+Retrieve the customers who have made payments less than $3
+customer, payment
+customer.customer_id, customer.first_name, customer.last_name, payment.customer_id, payment.amount
+
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+WHERE p.amount < 3.00;
+
+
+
+

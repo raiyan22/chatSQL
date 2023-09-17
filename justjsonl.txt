@@ -1,0 +1,580 @@
+{ message : [{ "role": "system", "content":
+{ "role": "system", "content":
+{ "role": "system", "content": ]}
+
+        { "role": "system", "content":
+"You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE category (
+	category_id INTEGER NOT NULL, 
+	name VARCHAR(25) NOT NULL, 
+	last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, 
+	PRIMARY KEY (category_id)
+)
+/*
+Columns in category and 3 examples in each column for high cardinality columns :
+category_id : 1, 16, 13
+name : Family, Sci-Fi, Action
+*/
+/*
+Columns in category and all categories for low cardinality columns :
+last_update : 2006-02-15 04:46:27
+*/
+
+CREATE TABLE chip_model (
+	"Model_name" TEXT, 
+	"Launch_year" REAL, 
+	"RAM_MiB" REAL, 
+	"ROM_MiB" REAL, 
+	"Slots" TEXT, 
+	"WiFi" TEXT, 
+	"Bluetooth" TEXT, 
+	PRIMARY KEY ("Model_name")
+)
+/*
+Columns in chip_model and 3 examples in each column for high cardinality columns :
+Model_name : X30 mid-range, X50 Advanced, X51 mid-range
+*/
+/*
+Columns in chip_model and all categories for low cardinality columns :
+Launch_year : 2002.0, 2005.0, 2004.0, 2003.0
+RAM_MiB : 32.0, 64.0
+ROM_MiB : 48.0, 256.0, 128.0, 32.0, 64.0
+Slots : 1CFII,1SD, 1SD
+WiFi : 802.11b, No
+Bluetooth : 1.2, Yes, No, 1.1
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE mountain (
+	"Mountain_ID" INTEGER, 
+	"Name" TEXT, 
+	"Height" REAL, 
+	"Prominence" REAL, 
+	"Range" TEXT, 
+	"Country" TEXT, 
+	PRIMARY KEY ("Mountain_ID")
+)
+/*
+Columns in mountain and all categories for low cardinality columns :
+Mountain_ID : 1, 2, 5, 7, 4, 6, 3
+Name : Ngaliema / Mt Stanley (Margherita Pk), Mount Kenya (Lenana), Kibo (Uhuru Pk), Ngaliema / Mt Stanley (Savoia Pk), Mount Kenya (Batian), Duwoni / Mt Speke (Vittorio Emanuele Pk), Mawenzi (Hans Meyer Pk)
+Height : 5109.0, 5199.0, 5895.0, 4890.0, 4985.0, 4977.0, 5148.0
+Prominence : 720.0, 850.0, 3951.0, 3825.0, 130.0, 5885.0, 110.0
+Range : Kilimanjaro, Mount Kenya, Rwenzori
+Country : DR Congo Uganda, Uganda, Tanzania, Kenya
+*/
+ 
+CREATE TABLE journalist (
+	"journalist_ID" INTEGER, 
+	"Name" TEXT, 
+	"Nationality" TEXT, 
+	"Age" TEXT, 
+	"Years_working" INTEGER, 
+	PRIMARY KEY ("journalist_ID")
+)
+/*
+Columns in journalist and 3 examples in each column for high cardinality columns :
+journalist_ID : 1, 11, 2
+Name : Jack Meaney, Herbert Swindells, Jackie Waring
+*/
+/*
+Columns in journalist and all categories for low cardinality columns :
+Nationality : Northern Ireland, Wales, England
+Age : 37, 28, 25, 33, 34, 43, 27, 29
+Years_working : 1, 5, 7, 8, 21, 6, 3, 12, 10, 9
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+" }, { "role": "user", "content": "How many heads of the departments are older than 56 ?" }, { "role": "assistant", "content": "
+To construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56" }
+    ]
+}{
+    "messages": [
+        { "role": "system", "content":
+"You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE injury_accident (
+	game_id INTEGER, 
+	id INTEGER, 
+	"Player" TEXT, 
+	"Injury" TEXT, 
+	"Number_of_matches" TEXT, 
+	"Source" TEXT, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(game_id) REFERENCES game (id)
+)
+/*
+Columns in injury_accident and 3 examples in each column for high cardinality columns :
+game_id : 1, 11, 2
+id : 1, 13, 11
+Player : Dejan Stanković, Thiago Motta (2), Iván Córdoba
+Injury : Sustained a biceps femoris strain in his left leg, First-degree strain left hamstring muscles, Sustained posterior thigh strains in his left leg
+*/
+/*
+Columns in injury_accident and all categories for low cardinality columns :
+Number_of_matches : 1, 4 (6), 2, 7 (17), 1 (2), 4, 12, 3, 10
+Source : inter.it
+*/
+ 
+CREATE TABLE publication (
+	"Publication_ID" INTEGER, 
+	"Book_ID" INTEGER, 
+	"Publisher" TEXT, 
+	"Publication_Date" TEXT, 
+	"Price" REAL, 
+	PRIMARY KEY ("Publication_ID"), 
+	FOREIGN KEY("Book_ID") REFERENCES book ("Book_ID")
+)
+/*
+Columns in publication and all categories for low cardinality columns :
+Publication_ID : 1, 2, 5, 7, 4, 6, 3
+Book_ID : 1, 5, 7, 4, 3, 10, 9
+Publisher : Thomson Reuters, Springer Nature, Bertelsmann, Pearson, Wiley
+Publication_Date : March 2008, October 2005, August 2008, June 2006, April 2007, March 2007
+Price : 6000000.0, 3000000.0, 4100000.0, 2000000.0, 15000000.0
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+ 
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+ 
+CREATE TABLE country (
+	country_id INTEGER NOT NULL, 
+	country VARCHAR(50) NOT NULL, 
+	last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, 
+	PRIMARY KEY (country_id)
+)
+/*
+Columns in country and 3 examples in each column for high cardinality columns :
+country_id : 87, 56, 65
+country : Belarus, Afghanistan, Runion
+*/
+/*
+Columns in country and all categories for low cardinality columns :
+last_update : 2006-02-15 04:44:00
+*/
+ 
+CREATE TABLE "Catalog_Contents" (
+	catalog_entry_id INTEGER, 
+	catalog_level_number INTEGER NOT NULL, 
+	parent_entry_id INTEGER, 
+	previous_entry_id INTEGER, 
+	next_entry_id INTEGER, 
+	catalog_entry_name VARCHAR(80), 
+	product_stock_number VARCHAR(50), 
+	price_in_dollars DOUBLE, 
+	price_in_euros DOUBLE, 
+	price_in_pounds DOUBLE, 
+	capacity VARCHAR(20), 
+	length VARCHAR(20), 
+	height VARCHAR(20), 
+	width VARCHAR(20), 
+	PRIMARY KEY (catalog_entry_id), 
+	FOREIGN KEY(catalog_level_number) REFERENCES "Catalog_Structure" (catalog_level_number)
+)
+/*
+Columns in Catalog_Contents and 3 examples in each column for high cardinality columns :
+catalog_entry_id : 1, 13, 11
+catalog_entry_name : Cream Soda, Diet Pepsi, Ramune
+product_stock_number : 15 mr, 42 cp, 26 op
+price_in_dollars : 475.79, 687.59, 616.22
+price_in_euros : 385.85, 159.84, 537.66
+price_in_pounds : 440.52, 405.75, 331.43
+*/
+/*
+Columns in Catalog_Contents and all categories for low cardinality columns :
+catalog_level_number : 1, 8, 9
+parent_entry_id : 5, 7, 4, 6, 3
+previous_entry_id : 5, 7, 8, 4, 6, 3, 9
+next_entry_id : 1, 7, 8, 6, 3, 9
+capacity : 1, 5, 7, 8, 4, 6, 9
+length : 5, 7, 8, 4, 6, 3, 9
+height : 1, 2, 5, 7, 8, 4, 6, 3, 9
+width : 1, 5, 7, 8, 6, 3, 9
+*/
+ 
+CREATE TABLE flight (
+	id INTEGER, 
+	"Vehicle_Flight_number" TEXT, 
+	"Date" TEXT, 
+	"Pilot" TEXT, 
+	"Velocity" REAL, 
+	"Altitude" REAL, 
+	airport_id INTEGER, 
+	company_id INTEGER, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(company_id) REFERENCES operate_company (id), 
+	FOREIGN KEY(airport_id) REFERENCES airport (id)
+)
+/*
+Columns in flight and 3 examples in each column for high cardinality columns :
+id : 1, 13, 11
+Vehicle_Flight_number : M2-F1 #14, M2-F1 #61, M2-F1 #0
+Date : July 16, 1965, May 19, 1964, March 28, 1966
+*/
+/*
+Columns in flight and all categories for low cardinality columns :
+Pilot : Thompson, Peterson
+Velocity : 240.0, 135.0
+Altitude : 3650.0, 0.0
+airport_id : 1, 2, 5, 8, 4, 6, 3, 9
+company_id : 1, 13, 11, 2, 5, 7, 4, 6, 3, 9
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/" 
+}, { "role": "user", "content": "What is the average number of employees of the departments whose rank is between 10 and 15?" }, 
+{ "role": "assistant", "content":
+"To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15" }
+    ]
+}{
+    "messages": [
+        { "role": "system", "content": 
+"You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE captain (
+	"Captain_ID" INTEGER, 
+	"Name" TEXT, 
+	"Ship_ID" INTEGER, 
+	age TEXT, 
+	"Class" TEXT, 
+	"Rank" TEXT, 
+	PRIMARY KEY ("Captain_ID"), 
+	FOREIGN KEY("Ship_ID") REFERENCES "Ship" ("Ship_ID")
+)
+/*
+Columns in captain and all categories for low cardinality columns :
+Captain_ID : 1, 2, 5, 7, 4, 6, 3
+Name : Lieutenant Hugh Bolitho, Captain Gilbert Pears, Commander Richard Bolitho, Captain Sir Henry Langford, Captain Beves Conway, Captain Henry Dumaresq, Lieutenant Montagu Verling
+Ship_ID : 1, 2, 5, 4, 3
+age : 38, 45, 40, 60, 43, 54
+Class : Sloop-of-war, Armed schooner, Third-rate ship of the line, Frigate, Cutter
+Rank : Midshipman, Lieutenant, Commander, junior captain
+*/
+ 
+CREATE TABLE county (
+	"County_Id" INTEGER, 
+	"County_name" TEXT, 
+	"Population" REAL, 
+	"Zip_code" TEXT, 
+	PRIMARY KEY ("County_Id")
+)
+/*
+Columns in county and all categories for low cardinality columns :
+County_Id : 1, 2, 5, 4, 3
+County_name : Baltimore County, Howard, Colony, Manning, Mansfield
+Population : 87200.0, 13300.0, 21000.0, 79000.0, 90000.0
+Zip_code : D09, D02, D21, D11, D08
+*/
+ 
+CREATE TABLE airport (
+	id INTEGER, 
+	"City" TEXT, 
+	"Country" TEXT, 
+	"IATA" TEXT, 
+	"ICAO" TEXT, 
+	name TEXT, 
+	PRIMARY KEY (id)
+)
+/*
+Columns in airport and all categories for low cardinality columns :
+id : 1, 2, 5, 7, 8, 4, 6, 3, 9
+City : Amsterdam, Anchorage, Bergen, Barcelona, Akureyri, Billund, Brussels, Boston, Baltimore
+Country : Spain, Belgium, Iceland, United States, Norway, Netherlands, Denmark
+IATA : BRU, AMS, BGO, ANC, BCN, BLL, BOS, BWI, AEY
+ICAO : EKBI, EHAM, KBWI, LEBL, BIAR, EBBR, PANC, KBOS, ENBR
+name : Schiphol Airport, Logan International Airport, Billund Airport, Akureyri Airport, Baltimore-Washington Airport, National Airport, Ted Stevens Airport, Bergen Airport, El Prat Airport
+*/
+ 
+CREATE TABLE "Enrolled_in" (
+	"StuID" INTEGER, 
+	"CID" VARCHAR(7), 
+	"Grade" VARCHAR(2), 
+	FOREIGN KEY("StuID") REFERENCES "Student" ("StuID"), 
+	FOREIGN KEY("CID") REFERENCES "Course" ("CID"), 
+	FOREIGN KEY("Grade") REFERENCES "Gradeconversion" (lettergrade)
+)
+/*
+Columns in Enrolled_in and 3 examples in each column for high cardinality columns :
+StuID : 1003, 1017, 1002
+CID : 550.413, 520.345, 600.437
+Grade : D+, B-, C
+*/
+
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE match_result (
+	"Rank" INTEGER, 
+	"Club_ID" INTEGER, 
+	"Gold" INTEGER, 
+	"Big_Silver" INTEGER, 
+	"Small_Silver" INTEGER, 
+	"Bronze" INTEGER, 
+	"Points" INTEGER, 
+	PRIMARY KEY ("Rank", "Club_ID"), 
+	FOREIGN KEY("Club_ID") REFERENCES club ("Club_ID")
+)
+/*
+Columns in match_result and all categories for low cardinality columns :
+Rank : 1, 2, 5, 4, 6, 3
+Club_ID : 1, 2, 5, 4, 6, 3
+Gold : 13, 20, 5, 7, 6, 12
+Big_Silver : 11, 7, 6, 12, 14, 9
+Small_Silver : 16, 4, 6, 10, 9
+Bronze : 7, 8, 6, 10, 9
+Points : 89, 102, 84, 66, 139, 168
+*/
+ 
+CREATE TABLE pilot (
+	"Pilot_ID" INTEGER, 
+	"Pilot_name" TEXT, 
+	"Rank" INTEGER, 
+	"Age" INTEGER, 
+	"Nationality" TEXT, 
+	"Position" TEXT, 
+	"Join_Year" INTEGER, 
+	"Team" TEXT, 
+	PRIMARY KEY ("Pilot_ID")
+)
+/*
+Columns in pilot and all categories for low cardinality columns :
+Pilot_ID : 1, 2, 5, 4, 3
+Pilot_name : Patrick O'Bryant, Charles Oakley, Dan O'Sullivan, Hakeem Olajuwon, Jermaine O'Neal
+Rank : 34, 13, 45, 6
+Age : 37, 33, 40, 32, 22
+Nationality : United States, Nigeria, United Kindom
+Position : Center Team, Forward Team, Forward-Center Team
+Join_Year : 2009, 2001, 2008, 1999, 2010
+Team : Fordham, Eau Claire High School, Bradley, Virginia Union, Houston
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+ 
+CREATE TABLE "Ship" (
+	"Ship_ID" INTEGER, 
+	"Name" TEXT, 
+	"Type" TEXT, 
+	"Built_Year" REAL, 
+	"Class" TEXT, 
+	"Flag" TEXT, 
+	PRIMARY KEY ("Ship_ID")
+)
+/*
+Columns in Ship and all categories for low cardinality columns :
+Ship_ID : 1, 2, 5, 7, 8, 4, 6, 3, 9
+Name : HMS Trojan, HMS Destiny, HMS Phalarope, HMS Undine, HMS Manxman, HM Cutter Avenger, HM Sloop Sparrow, HM Schooner Hotspur, HMS Gorgon
+Type : Panamax
+Built_Year : 1997.0, 1998.0
+Class : GL, KR
+Flag : Panama, Malta
+*/
+ 
+CREATE TABLE basketball_match (
+	"Team_ID" INTEGER, 
+	"School_ID" INTEGER, 
+	"Team_Name" TEXT, 
+	"ACC_Regular_Season" TEXT, 
+	"ACC_Percent" TEXT, 
+	"ACC_Home" TEXT, 
+	"ACC_Road" TEXT, 
+	"All_Games" TEXT, 
+	"All_Games_Percent" INTEGER, 
+	"All_Home" TEXT, 
+	"All_Road" TEXT, 
+	"All_Neutral" TEXT, 
+	PRIMARY KEY ("Team_ID"), 
+	FOREIGN KEY("School_ID") REFERENCES university ("School_ID")
+)
+/*
+Columns in basketball_match and all categories for low cardinality columns :
+Team_ID : 1, 2, 4, 3
+School_ID : 1, 2, 4, 5
+Team_Name : Virginia Tech, North Carolina, Clemson, Duke
+ACC_Regular_Season : 9–7, 14–2, 10–6, 13–3
+ACC_Percent : .813, .625, .563, .875
+ACC_Home : 7–1, 6–2
+ACC_Road : 3–5, 6–2, 8–0
+All_Games : 21–14, 35–2, 24–10, 28–6
+All_Games_Percent : 0.824, 0.6, 0.706, 0.946
+All_Home : 14–3, 14–2, 15–1
+All_Road : 4–8, 8–2, 13–0, 6–5
+All_Neutral : 9–1, 4–3, 3–3, 5–3
+*/
+" }, { "role": "user", "content": "Which department has more than 1 head at a time? List the id, name and the number of heads." }, { "role": "assistant", "content": "
+To construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1" }
+    ]
+}

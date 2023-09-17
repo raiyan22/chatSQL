@@ -1,0 +1,3503 @@
+{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE list (
+	"LastName" TEXT, 
+	"FirstName" TEXT, 
+	"Grade" INTEGER, 
+	"Classroom" INTEGER, 
+	PRIMARY KEY ("LastName", "FirstName")
+)
+/*
+Columns in list and 3 examples in each column for high cardinality columns :
+LastName : HOUTCHENS, GELL, FLACHS
+FirstName : RAY, EMILE, PATRINA
+Classroom : 109, 110, 106
+*/
+/*
+Columns in list and all categories for low cardinality columns :
+Grade : 1, 2, 5, 4, 6, 3, 0
+*/
+^"
+}, { "role": "^user^", "content": "^How many heads of the departments are older than 56 ?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: head.
+From these tables, I'll be using the following columns: age.
+The SQL query I'll be generating is:
+SELECT count(*) FROM head WHERE age > 56^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+
+CREATE TABLE building (
+	building_id TEXT, 
+	"Name" TEXT, 
+	"Street_address" TEXT, 
+	"Years_as_tallest" TEXT, 
+	"Height_feet" INTEGER, 
+	"Floors" INTEGER, 
+	PRIMARY KEY (building_id)
+)
+/*
+Columns in building and all categories for low cardinality columns :
+building_id : 1, 2, 5, 7, 4, 6, 3, 0
+Name : Bank of America Tower, Franklin Exchange Building, One Tampa City Center, 100 North Tampa, Park Tower, Citizens Bank Building, Floridan Hotel, Tampa City Hall
+Street_address : 905 Franklin Street, 701 North Franklin Street, 655 North Franklin Street, 315 John F. Kennedy Boulevard, 101 East Kennedy Boulevard, 100 North Tampa Street, 400 North Tampa Street, 201 North Franklin Street
+Years_as_tallest : 1966–1972, 1981–1986, 1913–1915, 1992–present, 1986–1992, 1915–1926, 1926–1966, 1972–1981
+Height_feet : 204, 537, 458, 577, 145, 579, 160, 280
+Floors : 42, 36, 17, 12, 39, 10, 22
+*/
+
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+^"
+}, { "role": "^user^", "content": "^What is the average number of employees of the departments whose rank is between 10 and 15?^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: department.
+From these tables, I'll be using the following columns: num_employees, ranking.
+The SQL query I'll be generating is:
+SELECT avg(num_employees) FROM department WHERE ranking BETWEEN 10 AND 15^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE wrestler (
+	"Wrestler_ID" INTEGER, 
+	"Name" TEXT, 
+	"Reign" TEXT, 
+	"Days_held" TEXT, 
+	"Location" TEXT, 
+	"Event" TEXT, 
+	PRIMARY KEY ("Wrestler_ID")
+)
+/*
+Columns in wrestler and all categories for low cardinality columns :
+Wrestler_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+Name : Fishman, El Samurai §, Rey Misterio Sr., Último Dragón §, Shinjiro Otani §, Gran Hamada, Jushin Liger §, Villaño IV, The Great Sasuke §, El Samurai
+Reign : 1, 2
+Days_held : 1, 113, 35, 56, 183, 1285, 960, 344, 99, 54
+Location : Nagoya , Japan, Tijuana , Mexico, Sapporo , Japan, Tokyo , Japan, Osaka , Japan
+Event : Wrestling World 1997, Live event
+*/
+ 
+CREATE TABLE head (
+	"head_ID" INTEGER, 
+	name TEXT, 
+	born_state TEXT, 
+	age REAL, 
+	PRIMARY KEY ("head_ID")
+)
+/*
+Columns in head and all categories for low cardinality columns :
+head_ID : 1, 2, 5, 7, 8, 4, 6, 3, 10, 9
+name : Jeff Maggert, Pádraig Harrington, Billy Mayfair, K. J. Choi, Dudley Hart, Sergio García, Stewart Cink, Tiger Woods, Nick Faldo, Franklin Langham
+born_state : Delaware, Connecticut, Alabama, California, Florida
+age : 69.0, 67.0, 68.0, 53.0, 56.0, 52.0, 50.0, 43.0
+*/
+ 
+CREATE TABLE management (
+	"department_ID" INTEGER, 
+	"head_ID" INTEGER, 
+	temporary_acting TEXT, 
+	PRIMARY KEY ("department_ID", "head_ID"), 
+	FOREIGN KEY("head_ID") REFERENCES head ("head_ID"), 
+	FOREIGN KEY("department_ID") REFERENCES department ("Department_ID")
+)
+/*
+Columns in management and all categories for low cardinality columns :
+department_ID : 7, 15, 2, 11
+head_ID : 5, 4, 6, 3, 10
+temporary_acting : Yes, No
+*/
+ 
+CREATE TABLE department (
+	"Department_ID" INTEGER, 
+	"Name" TEXT, 
+	"Creation" TEXT, 
+	"Ranking" INTEGER, 
+	"Budget_in_Billions" REAL, 
+	"Num_Employees" REAL, 
+	PRIMARY KEY ("Department_ID")
+)
+/*
+Columns in department and 3 examples in each column for high cardinality columns :
+Department_ID : 1, 13, 11
+Name : Energy, Interior, Health and Human Services
+Creation : 1913, 1979, 1989
+Ranking : 1, 13, 11
+Budget_in_Billions : 10.7, 77.6, 59.7
+Num_Employees : 112557.0, 3000000.0, 235000.0
+*/
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time? List the id, name and the number of heads.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT T1.department_id , T1.name , count(*) FROM management AS T2 JOIN department AS T1 ON T1.department_id = T2.department_id GROUP BY T1.department_id HAVING count(*) > 1^" }
+    ]
+}

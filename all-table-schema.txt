@@ -1,0 +1,433 @@
+--------------------------------------
+actor
+--------------------------------------
+CREATE TABLE public.actor
+(
+    "actor_id" INTEGER NOT NULL,
+    "first_name" TEXT NOT NULL, - first name of actor
+    "last_name" TEXT NOT NULL, - last name of actor
+    "last_update" timestamp NOT NULL, - when this table public.actor was last updated 
+    PRIMARY KEY ("actor_id")
+);
+/*
+Columns in actor and 3 examples in each column for the high cardinality columns :
+actor_id: 1 , 2 , 3
+first_name : "Penelope", "Nick", "Ed"
+last_name : "Guiness", "Wahlberg", "Chase"
+*/
+/*
+Columns in actor and all categories for the low cardinality columns :
+last_update : "2013-05-26 14:47:57.62"
+*/
+--------------------------------------
+
+
+--------------------------------------
+address
+--------------------------------------
+CREATE TABLE public.address
+(
+    "address_id" INTEGER NOT NULL,
+    "address" TEXT NOT NULL, - address of staff or customer
+    "address2" TEXT, - additional information about address
+    "district" TEXT NOT NULL, - district mentioned in the address
+    "city_id" smallint NOT NULL,
+    "postal_code" TEXT, - postal code in the address
+    "phone" TEXT NOT NULL, - phone number of staff or customer
+    "last_update" timestamp NOT NULL, - when this table public.address was last updated
+    PRIMARY KEY ("address_id"),
+    FOREIGN KEY ("city_id") REFERENCES public.city ("city_id")
+);
+/*
+Columns in address and 3 examples in each column for the high cardinality columns :
+address_id: 7 , 8 , 9
+address : "692 Joliet Street", "1566 Inegl Manor", "53 Idfu Parkway"
+district : "Attika", "Mandalay", "Nantou"
+postal_code: "83579", "53561", "42399"
+*/
+/*
+Columns in address and all categories for the low cardinality columns :
+address2 : "null", ""
+last_update: "2006-02-15 09:45:30"
+*/
+--------------------------------------
+
+
+--------------------------------------
+category
+--------------------------------------
+CREATE TABLE public.category
+(
+    "category_id" INTEGER NOT NULL,
+    "name" TEXT NOT NULL, - name of the category
+    "last_update" timestampNOT NULL, - when this table public.category was last updated
+    PRIMARY KEY ("category_id")
+);
+/*
+Columns in category and 3 examples in each column for the high cardinality columns :
+category_id: 1 , 2 , 3
+name : "Action", "Animation", "Children"
+*/
+/*
+Columns in category and all categories for the low cardinality columns :
+last_update: "2006-02-15 09:46:27"
+*/
+--------------------------------------
+
+
+--------------------------------------
+city
+--------------------------------------
+CREATE TABLE public.city
+(
+    "city_id" INTEGER NOT NULL,
+    "city" TEXT NOT NULL, - name of city
+    "country_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.city was last updated
+    PRIMARY KEY ("city_id"),
+    FOREIGN KEY ("country_id") REFERENCES public.country ("country_id")
+);
+/*
+Columns in city and 3 examples in each column for the high cardinality columns :
+city_id: 2 , 3, 4
+city : "Abha", "Abu Dhabi", "Acua"
+country_id: 82 , 101, 60
+*/
+/*
+Columns in city and all categories for the low cardinality columns :
+last_update: "2006-02-15 09:45:25"
+*/
+--------------------------------------
+
+
+--------------------------------------
+country
+--------------------------------------
+CREATE TABLE public.country
+(
+    "country_id" INTEGER NOT NULL,
+    "country" TEXT NOT NULL, - name of country
+    "last_update" timestamp NOT NULL, - when this table public.country was last updated
+    PRIMARY KEY ("country_id")
+);
+/*
+Columns in country and 3 examples in each column for the high cardinality columns :
+country_id: 49 , 50, 51
+city : "Italy", "Japan", "Kazakstan"
+*/
+/*
+Columns in country and all categories for the low cardinality columns :
+last_update: "2006-02-15 09:44:00"
+*/
+--------------------------------------
+
+
+--------------------------------------
+customer
+--------------------------------------
+CREATE TABLE public.customer
+(
+    "customer_id" INTEGER NOT NULL,
+    "store_id" smallint NOT NULL,
+    "first_name" TEXT NOT NULL, - first name of customer
+    "last_name" TEXT NOT NULL, - last name of customer
+    "email" TEXT, - email id of customer
+    "address_id" smallint NOT NULL,
+    "activebool" boolean NOT NULL,
+    "create_date" date NOT NULL, - date created
+    "last_update" timestamp, - when this table public.customer was last updated
+    "active" integer, - customer active or not
+    PRIMARY KEY ("customer_id"),
+    FOREIGN KEY ("address_id") REFERENCES public.address ("address_id")
+);
+/*
+Columns in customer and 3 examples in each column for the high cardinality columns :
+customer_id: 1 , 2, 3
+first_name : "Mary", "Patricia", "Linda"
+last_name : "Smith", "Johnson", "Williams"
+email : "mary.smith@sakilacustomer.org", "patricia.johnson@sakilacustomer.org" , "linda.williams@sakilacustomer.org"
+address_id: 5, 6, 7
+*/
+/*
+Columns in customer and all categories for the low cardinality columns :
+store_id: 1, 2
+last_update: "2006-02-15 09:44:00"
+activebool: true, false
+active: 1, 0
+*/
+--------------------------------------
+
+
+--------------------------------------
+film
+--------------------------------------
+CREATE TABLE public.film
+(
+    "film_id" INTEGER NOT NULL,
+    "title" TEXT NOT NULL, - title of the film
+    "description" TEXT, - description of the film
+    "release_year" TEXT, - release year of the film
+    "language_id" smallint NOT NULL,
+    "rental_duration" smallint NOT NULL, - rental duration of the film
+    "rental_rate" numeric(4, 2) NOT NULL DEFAULT 4.99, rental rate of the film
+    "length" smallint, - length of the film
+    "replacement_cost" numeric(5, 2) NOT NULL, - replacement cost of the film
+    "rating" mpaa_rating, - rating of the film
+    "last_update" timestamp NOT NULL, - when this table public.film was last updated
+    "special_features" TEXT[], - special features of the film
+    "fulltext" TEXT NOT NULL, - fulltext of the film as keywords
+    PRIMARY KEY ("film_id"),
+    FOREIGN KEY ("language_id") REFERENCES public.language ("language_id")
+);
+/*
+Columns in film and 3 examples in each column for the high cardinality columns :
+customer_id: 133, 384, 8
+title: "Chamber Italian", "Grosse Wonderful", "Airport Pollock"
+length: 117, 49, 54
+fulltext: "'chamber':1 'fate':4 'husband':11 'italian':2 'monkey':16 'moos':8 'must':13 'nigeria':18 'overcom':14 'reflect':5", 
+          "'australia':18 'cat':8 'drama':5 'epic':4 'explor':11 'gross':1 'moos':16 'must':13 'redeem':14 'wonder':2" ,
+          "'airport':1 'ancient':18 'confront':14 'epic':4 'girl':11 'india':19 'monkey':16 'moos':8 'must':13 'pollock':2 'tale':5"
+*/
+/*
+Columns in film and all categories for the low cardinality columns :
+rental_rate: 2.99, 4.99, 0.99
+release_year: 2006
+rating: "PG", "R", "NC-17", "PG-13", "G"
+last_update: "2013-05-26 14:50:58.951"
+special_features :
+"{Trailers,Commentaries,""Deleted Scenes""}",
+"{Trailers,""Deleted Scenes""}",
+"{Trailers,Commentaries,""Behind the Scenes""}",
+"{""Deleted Scenes""}",
+"{Commentaries}",
+"{Trailers,Commentaries,""Deleted Scenes"",""Behind the Scenes""}",
+"{Trailers,""Behind the Scenes""}",
+"{Commentaries,""Behind the Scenes""}",
+"{""Behind the Scenes""}",
+"{Trailers,Commentaries}",
+"{Commentaries,""Deleted Scenes""}",
+"{Trailers}",
+"{Commentaries,""Deleted Scenes"",""Behind the Scenes""}",
+"{Trailers,""Deleted Scenes"",""Behind the Scenes""}",
+"{""Deleted Scenes"",""Behind the Scenes""}"
+*/
+--------------------------------------
+
+
+--------------------------------------
+film_actor
+--------------------------------------
+CREATE TABLE public.film_actor
+(
+    "actor_id" smallint NOT NULL,
+    "film_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.film_actor was last updated
+    PRIMARY KEY ("actor_id", "film_id"),
+    FOREIGN KEY ("actor_id") REFERENCES public.actor ("actor_id"), 
+    FOREIGN KEY ("film_id") REFERENCES public.film ("film_id") 
+);
+/*
+Columns in film_actor and 3 examples in each column for the high cardinality columns :
+actor_id: 1 , 9, 8
+film_id: 23 , 30, 532
+*/
+/*
+Columns in film_actor and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:05:03"
+*/
+--------------------------------------
+
+
+--------------------------------------
+film_category
+--------------------------------------
+CREATE TABLE public.film_category
+(
+    "film_id" smallint NOT NULL,
+    "category_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.film_category was last updated
+    PRIMARY KEY ("film_id", "category_id"),
+    FOREIGN KEY ("category_id") REFERENCES public.category ("category_id"),
+    FOREIGN KEY ("film_id") REFERENCES public.film ("film_id")
+);
+/*
+Columns in film_category and 3 examples in each column for the high cardinality columns :
+film_id: 5 , 6, 7
+category_id: 8, 9 5
+*/
+/*
+Columns in film_category and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:07:09"
+*/
+--------------------------------------
+
+
+--------------------------------------
+inventory
+--------------------------------------
+CREATE TABLE public.inventory
+(
+    "inventory_id" INTEGER NOT NULL,
+    "film_id" smallint NOT NULL,
+    "store_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.inventory was last updated
+    PRIMARY KEY ("inventory_id"),
+    FOREIGN KEY ("film_id") REFERENCES public.film ("film_id") 
+);
+/*
+Columns in inventory and 3 examples in each column for the high cardinality columns :
+inventory_id: 3 , 5, 6
+film_id: 1, 1, 1
+store_id: 1, 2, 2
+*/
+/*
+Columns in inventory and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:09:17"
+*/
+--------------------------------------
+
+
+--------------------------------------
+language
+--------------------------------------
+CREATE TABLE public.language
+(
+    "language_id" INTEGER NOT NULL,
+    "name" TEXT NOT NULL, - name of the language
+    "last_update" timestamp NOT NULL, - when this table public.language was last updated
+    PRIMARY KEY ("language_id")
+);
+/*
+Columns in language and 3 examples in each column for the high cardinality columns :
+language_id: 1, 2, 3
+name: "English", "Italian", "Japanese"
+*/
+/*
+Columns in language and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:02:19"
+*/
+--------------------------------------
+
+
+--------------------------------------
+payment
+--------------------------------------
+CREATE TABLE public.payment
+(
+    "payment_id" INTEGER NOT NULL,
+    "customer_id" smallint NOT NULL,
+    "staff_id" smallint NOT NULL,
+    "rental_id" integer NOT NULL,
+    "amount" numeric(5, 2) NOT NULL, - payment amount
+    "payment_date" timestamp NOT NULL, - date of the payment
+    PRIMARY KEY ("payment_id"),
+    FOREIGN KEY ("customer_id") REFERENCES public.customer ("customer_id"),
+    FOREIGN KEY ("rental_id") REFERENCES public.rental ("rental_id"),
+    FOREIGN KEY ("staff_id") REFERENCES public.staff ("staff_id")
+);
+/*
+Columns in payment and 3 examples in each column for the high cardinality columns :
+payment_id: 17503, 17504, 17505
+customer_id: 341, 341, 341
+staff_id: 2, 1, 1
+rental_id: 1520, 1778, 1849
+amount: 7.99, 1.99, 7.99
+payment_date: 2007-02-15 22:25:46.996577, 2007-02-16 17:23:14.996577, 2007-02-16 22:41:45.996577
+*/
+/*
+Columns in payment and all categories for the low cardinality columns :
+none
+*/
+--------------------------------------
+
+
+--------------------------------------
+rental
+--------------------------------------
+CREATE TABLE public.rental
+(
+    "rental_id" INTEGER NOT NULL,
+    "rental_date" timestamp NOT NULL, - date of rental
+    "inventory_id" integer NOT NULL,
+    "customer_id" smallint NOT NULL,
+    "return_date" timestamp, - date of return 
+    "staff_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.rental was last updated
+    PRIMARY KEY ("rental_id"),
+    FOREIGN KEY ("customer_id") REFERENCES public.customer ("customer_id"),
+    FOREIGN KEY ("inventory_id") REFERENCES public.inventory ("inventory_id"),
+    FOREIGN KEY ("staff_id") REFERENCES public.staff ("staff_id")
+);
+/*
+Columns in rental and 3 examples in each column for the high cardinality columns :
+rental_id: 2, 3, 4
+rental_date: 2005-05-24 22:54:33, 2005-05-24 23:03:39, 2005-05-24 23:04:41
+inventory_id: 1525, 1711, 2452
+customer_id: 459, 408, 333
+return_date: 2005-05-28 19:40:33, 2005-06-01 22:12:39, 2005-06-03 01:43:41
+staff_id: 1, 1, 2
+*/
+/*
+Columns in rental and all categories for the low cardinality columns :
+last_update: "2006-02-16 02:30:53"
+*/
+--------------------------------------
+
+
+--------------------------------------
+staff
+--------------------------------------
+CREATE TABLE public.staff
+(
+    "staff_id" INTEGER NOT NULL,
+    "first_name" TEXT NOT NULL, - first name of the staff
+    "last_name" TEXT NOT NULL, - last name of the staff
+    "address_id" smallint NOT NULL,
+    "email" TEXT, - email id of the staff
+    "store_id" smallint NOT NULL,
+    "active" boolean NOT NULL, - staff is active or not
+    "username" TEXT NOT NULL, - username of the staff
+    "password" TEXT, - password of the staff
+    "last_update" timestamp NOT NULL, - when this table public.staff was last updated
+    "picture" bytea,
+    PRIMARY KEY ("staff_id"),
+    FOREIGN KEY ("address_id") REFERENCES public.address ("address_id")
+);
+/*
+Columns in staff and 2 examples in each column for the high cardinality columns :
+first_name: "Mike", "Jon"
+last_name: "Hillyer", "Stephens"
+email: "Mike.Hillyer@sakilastaff.com", "Jon.Stephens@sakilastaff.com"
+staff_id: 1, 1, 2
+*/
+/*
+Columns in staff and all categories for the low cardinality columns :
+last_update: "2006-05-16 16:13:11.79328"
+password: "8cb2237d0679ca88db6464eac60da96345513964"
+*/
+--------------------------------------
+
+
+--------------------------------------
+store
+--------------------------------------
+CREATE TABLE public.store
+(
+    "store_id" INTEGER NOT NULL,
+    "manager_staff_id" smallint NOT NULL,
+    "address_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.store was last updated
+    PRIMARY KEY ("store_id"),
+    FOREIGN KEY ("address_id") REFERENCES public.address ("address_id"),
+    FOREIGN KEY ("manager_staff_id") REFERENCES public.staff ("staff_id")
+);
+/*
+Columns in store and 2 examples in each column for the high cardinality columns :
+store_id: 1, 2
+manager_staff_id: 1, 2
+*/
+/*
+Columns in store and all categories for the low cardinality columns :
+last_update: "2006-02-15 09:57:12"
+*/
+--------------------------------------

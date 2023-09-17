@@ -1,0 +1,15 @@
+{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Which department has more than 1 head at a time?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: management, department.
+From these tables, I'll be using the following columns: department.department_id, department.name, management.department_id.
+The SQL query I'll be generating is:
+SELECT department_id , name FROM management^" }
+    ]
+}
