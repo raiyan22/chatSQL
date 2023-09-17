@@ -1,4 +1,5 @@
-Steps for fine tuning gpt-3.5:
+### Steps for fine tuning gpt-3.5:
+
 In order to fine tune we have to have our custom dataset. Since the model will be used in querying sql database, each row of training dataset will have the structure similar to this:
 ```
 { “message” : [{ "role": "system", "content": “custom info 1 here ”
