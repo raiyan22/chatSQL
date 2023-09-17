@@ -1,0 +1,1518 @@
+{
+    "messages": [
+{ "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE public.film
+(
+    "film_id" INTEGER NOT NULL,
+    "title" TEXT NOT NULL, - title of the film
+    "description" TEXT, - description of the film
+    "release_year" TEXT, - release year of the film
+    "language_id" smallint NOT NULL,
+    "rental_duration" smallint NOT NULL, - rental duration of the film
+    "rental_rate" numeric(4, 2) NOT NULL DEFAULT 4.99, rental rate of the film
+    "length" smallint, - length of the film
+    "replacement_cost" numeric(5, 2) NOT NULL, - replacement cost of the film
+    "rating" mpaa_rating, - rating of the film
+    "last_update" timestamp NOT NULL, - when this table public.film was last updated
+    "special_features" TEXT[], - special features of the film
+    "fulltext" TEXT NOT NULL, - fulltext of the film as keywords
+    PRIMARY KEY ("film_id"),
+    FOREIGN KEY ("language_id") REFERENCES public.language ("language_id")
+);
+/*
+Columns in film and 3 examples in each column for the high cardinality columns :
+customer_id: 133, 384, 8
+title: "Chamber Italian", "Grosse Wonderful", "Airport Pollock"
+length: 117, 49, 54
+fulltext: "'chamber':1 'fate':4 'husband':11 'italian':2 'monkey':16 'moos':8 'must':13 'nigeria':18 'overcom':14 'reflect':5", 
+          "'australia':18 'cat':8 'drama':5 'epic':4 'explor':11 'gross':1 'moos':16 'must':13 'redeem':14 'wonder':2" ,
+          "'airport':1 'ancient':18 'confront':14 'epic':4 'girl':11 'india':19 'monkey':16 'moos':8 'must':13 'pollock':2 'tale':5"
+*/
+/*
+Columns in film and all categories for the low cardinality columns :
+rental_rate: 2.99, 4.99, 0.99
+release_year: 2006
+rating: "PG", "R", "NC-17", "PG-13", "G"
+last_update: "2013-05-26 14:50:58.951"
+special_features :
+"{Trailers,Commentaries,""Deleted Scenes""}",
+"{Trailers,""Deleted Scenes""}",
+"{Trailers,Commentaries,""Behind the Scenes""}",
+"{""Deleted Scenes""}",
+"{Commentaries}",
+"{Trailers,Commentaries,""Deleted Scenes"",""Behind the Scenes""}",
+"{Trailers,""Behind the Scenes""}",
+"{Commentaries,""Behind the Scenes""}",
+"{""Behind the Scenes""}",
+"{Trailers,Commentaries}",
+"{Commentaries,""Deleted Scenes""}",
+"{Trailers}",
+"{Commentaries,""Deleted Scenes"",""Behind the Scenes""}",
+"{Trailers,""Deleted Scenes"",""Behind the Scenes""}",
+"{""Deleted Scenes"",""Behind the Scenes""}"
+*/
+ 
+CREATE TABLE public.film_actor
+(
+    "actor_id" smallint NOT NULL,
+    "film_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.film_actor was last updated
+    PRIMARY KEY ("actor_id", "film_id"),
+    FOREIGN KEY ("actor_id") REFERENCES public.actor ("actor_id"), 
+    FOREIGN KEY ("film_id") REFERENCES public.film ("film_id") 
+);
+/*
+Columns in film_actor and 3 examples in each column for the high cardinality columns :
+actor_id: 1 , 9, 8
+film_id: 23 , 30, 532
+*/
+/*
+Columns in film_actor and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:05:03"
+*/
+
+CREATE TABLE public.film_category
+(
+    "film_id" smallint NOT NULL,
+    "category_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.film_category was last updated
+    PRIMARY KEY ("film_id", "category_id"),
+    FOREIGN KEY ("category_id") REFERENCES public.category ("category_id"),
+    FOREIGN KEY ("film_id") REFERENCES public.film ("film_id")
+);
+/*
+Columns in film_category and 3 examples in each column for the high cardinality columns :
+film_id: 5 , 6, 7
+category_id: 8, 9 5
+*/
+/*
+Columns in film_category and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:07:09"
+*/
+^"
+}, { "role": "^user^", "content": "^Find the average rental rate of films^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film.
+From these tables, I'll be using the following columns: rental_rate.
+The SQL query I'll be generating is:
+SELECT AVG(rental_rate) AS average_rental_rate FROM film;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content": "^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE public.city
+(
+    "city_id" INTEGER NOT NULL,
+    "city" TEXT NOT NULL, - name of city
+    "country_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.city was last updated
+    PRIMARY KEY ("city_id"),
+    FOREIGN KEY ("country_id") REFERENCES public.country ("country_id")
+);
+/*
+Columns in city and 3 examples in each column for the high cardinality columns :
+city_id: 2 , 3, 4
+city : "Abha", "Abu Dhabi", "Acua"
+country_id: 82 , 101, 60
+*/
+/*
+Columns in city and all categories for the low cardinality columns :
+last_update: "2006-02-15 09:45:25"
+*/
+
+CREATE TABLE public.film_category
+(
+    "film_id" smallint NOT NULL,
+    "category_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.film_category was last updated
+    PRIMARY KEY ("film_id", "category_id"),
+    FOREIGN KEY ("category_id") REFERENCES public.category ("category_id"),
+    FOREIGN KEY ("film_id") REFERENCES public.film ("film_id")
+);
+/*
+Columns in film_category and 3 examples in each column for the high cardinality columns :
+film_id: 5 , 6, 7
+category_id: 8, 9 5
+*/
+/*
+Columns in film_category and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:07:09"
+*/
+
+CREATE TABLE public.country
+(
+    "country_id" INTEGER NOT NULL,
+    "country" TEXT NOT NULL, - name of country
+    "last_update" timestamp NOT NULL, - when this table public.country was last updated
+    PRIMARY KEY ("country_id")
+);
+/*
+Columns in country and 3 examples in each column for the high cardinality columns :
+country_id: 49 , 50, 51
+city : "Italy", "Japan", "Kazakstan"
+*/
+/*
+Columns in country and all categories for the low cardinality columns :
+last_update: "2006-02-15 09:44:00"
+*/
+^"
+}, { "role": "^user^", "content": "^Retrieve the names of cities and their corresponding countries^" }, 
+{ "role": "^assistant^", "content":
+"^To construct the query, I'll be working with the following tables: city, country.
+From these tables, I'll be using the following columns: city.city, country.country, city.country_id, country.country_id.
+The SQL query I'll be generating is:
+SELECT city.city, country.country FROM city INNER JOIN country ON city.country_id = country.country_id;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+
+CREATE TABLE public.film_category
+(
+    "film_id" smallint NOT NULL,
+    "category_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.film_category was last updated
+    PRIMARY KEY ("film_id", "category_id"),
+    FOREIGN KEY ("category_id") REFERENCES public.category ("category_id"),
+    FOREIGN KEY ("film_id") REFERENCES public.film ("film_id")
+);
+/*
+Columns in film_category and 3 examples in each column for the high cardinality columns :
+film_id: 5 , 6, 7
+category_id: 8, 9 5
+*/
+/*
+Columns in film_category and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:07:09"
+*/
+
+CREATE TABLE public.film_actor
+(
+    "actor_id" smallint NOT NULL,
+    "film_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.film_actor was last updated
+    PRIMARY KEY ("actor_id", "film_id"),
+    FOREIGN KEY ("actor_id") REFERENCES public.actor ("actor_id"), 
+    FOREIGN KEY ("film_id") REFERENCES public.film ("film_id") 
+);
+/*
+Columns in film_actor and 3 examples in each column for the high cardinality columns :
+actor_id: 1 , 9, 8
+film_id: 23 , 30, 532
+*/
+/*
+Columns in film_actor and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:05:03"
+*/
+
+CREATE TABLE public.film
+(
+    "film_id" INTEGER NOT NULL,
+    "title" TEXT NOT NULL, - title of the film
+    "description" TEXT, - description of the film
+    "release_year" TEXT, - release year of the film
+    "language_id" smallint NOT NULL,
+    "rental_duration" smallint NOT NULL, - rental duration of the film
+    "rental_rate" numeric(4, 2) NOT NULL DEFAULT 4.99, rental rate of the film
+    "length" smallint, - length of the film
+    "replacement_cost" numeric(5, 2) NOT NULL, - replacement cost of the film
+    "rating" mpaa_rating, - rating of the film
+    "last_update" timestamp NOT NULL, - when this table public.film was last updated
+    "special_features" TEXT[], - special features of the film
+    "fulltext" TEXT NOT NULL, - fulltext of the film as keywords
+    PRIMARY KEY ("film_id"),
+    FOREIGN KEY ("language_id") REFERENCES public.language ("language_id")
+);
+/*
+Columns in film and 3 examples in each column for the high cardinality columns :
+customer_id: 133, 384, 8
+title: "Chamber Italian", "Grosse Wonderful", "Airport Pollock"
+length: 117, 49, 54
+fulltext: "'chamber':1 'fate':4 'husband':11 'italian':2 'monkey':16 'moos':8 'must':13 'nigeria':18 'overcom':14 'reflect':5", 
+          "'australia':18 'cat':8 'drama':5 'epic':4 'explor':11 'gross':1 'moos':16 'must':13 'redeem':14 'wonder':2" ,
+          "'airport':1 'ancient':18 'confront':14 'epic':4 'girl':11 'india':19 'monkey':16 'moos':8 'must':13 'pollock':2 'tale':5"
+*/
+/*
+Columns in film and all categories for the low cardinality columns :
+rental_rate: 2.99, 4.99, 0.99
+release_year: 2006
+rating: "PG", "R", "NC-17", "PG-13", "G"
+last_update: "2013-05-26 14:50:58.951"
+special_features :
+"{Trailers,Commentaries,""Deleted Scenes""}",
+"{Trailers,""Deleted Scenes""}",
+"{Trailers,Commentaries,""Behind the Scenes""}",
+"{""Deleted Scenes""}",
+"{Commentaries}",
+"{Trailers,Commentaries,""Deleted Scenes"",""Behind the Scenes""}",
+"{Trailers,""Behind the Scenes""}",
+"{Commentaries,""Behind the Scenes""}",
+"{""Behind the Scenes""}",
+"{Trailers,Commentaries}",
+"{Commentaries,""Deleted Scenes""}",
+"{Trailers}",
+"{Commentaries,""Deleted Scenes"",""Behind the Scenes""}",
+"{Trailers,""Deleted Scenes"",""Behind the Scenes""}",
+"{""Deleted Scenes"",""Behind the Scenes""}"
+*/
+
+CREATE TABLE public.actor
+(
+    "actor_id" INTEGER NOT NULL,
+    "first_name" TEXT NOT NULL, - first name of actor
+    "last_name" TEXT NOT NULL, - last name of actor
+    "last_update" timestamp NOT NULL, - when this table public.actor was last updated 
+    PRIMARY KEY ("actor_id")
+);
+/*
+Columns in actor and 3 examples in each column for the high cardinality columns :
+actor_id: 1 , 2 , 3
+first_name : "Penelope", "Nick", "Ed"
+last_name : "Guiness", "Wahlberg", "Chase"
+*/
+/*
+Columns in actor and all categories for the low cardinality columns :
+last_update : "2013-05-26 14:47:57.62"
+*/
+^"
+}, { "role": "^user^", "content": "^List the titles of films released in the year 2022.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film.
+From these tables, I'll be using the following columns: title.
+The SQL query I'll be generating is:
+SELECT title FROM film WHERE release_year = '2022' LIMIT 20;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE public.country
+(
+    "country_id" INTEGER NOT NULL,
+    "country" TEXT NOT NULL, - name of country
+    "last_update" timestamp NOT NULL, - when this table public.country was last updated
+    PRIMARY KEY ("country_id")
+);
+/*
+Columns in country and 3 examples in each column for the high cardinality columns :
+country_id: 49 , 50, 51
+city : "Italy", "Japan", "Kazakstan"
+*/
+/*
+Columns in country and all categories for the low cardinality columns :
+last_update: "2006-02-15 09:44:00"
+*/
+
+CREATE TABLE public.actor
+(
+    "actor_id" INTEGER NOT NULL,
+    "first_name" TEXT NOT NULL, - first name of actor
+    "last_name" TEXT NOT NULL, - last name of actor
+    "last_update" timestamp NOT NULL, - when this table public.actor was last updated 
+    PRIMARY KEY ("actor_id")
+);
+/*
+Columns in actor and 3 examples in each column for the high cardinality columns :
+actor_id: 1 , 2 , 3
+first_name : "Penelope", "Nick", "Ed"
+last_name : "Guiness", "Wahlberg", "Chase"
+*/
+/*
+Columns in actor and all categories for the low cardinality columns :
+last_update : "2013-05-26 14:47:57.62"
+*/
+
+CREATE TABLE public.film_actor
+(
+    "actor_id" smallint NOT NULL,
+    "film_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.film_actor was last updated
+    PRIMARY KEY ("actor_id", "film_id"),
+    FOREIGN KEY ("actor_id") REFERENCES public.actor ("actor_id"), 
+    FOREIGN KEY ("film_id") REFERENCES public.film ("film_id") 
+);
+/*
+Columns in film_actor and 3 examples in each column for the high cardinality columns :
+actor_id: 1 , 9, 8
+film_id: 23 , 30, 532
+*/
+/*
+Columns in film_actor and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:05:03"
+*/
+
+CREATE TABLE public.film
+(
+    "film_id" INTEGER NOT NULL,
+    "title" TEXT NOT NULL, - title of the film
+    "description" TEXT, - description of the film
+    "release_year" TEXT, - release year of the film
+    "language_id" smallint NOT NULL,
+    "rental_duration" smallint NOT NULL, - rental duration of the film
+    "rental_rate" numeric(4, 2) NOT NULL DEFAULT 4.99, rental rate of the film
+    "length" smallint, - length of the film
+    "replacement_cost" numeric(5, 2) NOT NULL, - replacement cost of the film
+    "rating" mpaa_rating, - rating of the film
+    "last_update" timestamp NOT NULL, - when this table public.film was last updated
+    "special_features" TEXT[], - special features of the film
+    "fulltext" TEXT NOT NULL, - fulltext of the film as keywords
+    PRIMARY KEY ("film_id"),
+    FOREIGN KEY ("language_id") REFERENCES public.language ("language_id")
+);
+/*
+Columns in film and 3 examples in each column for the high cardinality columns :
+customer_id: 133, 384, 8
+title: "Chamber Italian", "Grosse Wonderful", "Airport Pollock"
+length: 117, 49, 54
+fulltext: "'chamber':1 'fate':4 'husband':11 'italian':2 'monkey':16 'moos':8 'must':13 'nigeria':18 'overcom':14 'reflect':5", 
+          "'australia':18 'cat':8 'drama':5 'epic':4 'explor':11 'gross':1 'moos':16 'must':13 'redeem':14 'wonder':2" ,
+          "'airport':1 'ancient':18 'confront':14 'epic':4 'girl':11 'india':19 'monkey':16 'moos':8 'must':13 'pollock':2 'tale':5"
+*/
+/*
+Columns in film and all categories for the low cardinality columns :
+rental_rate: 2.99, 4.99, 0.99
+release_year: 2006
+rating: "PG", "R", "NC-17", "PG-13", "G"
+last_update: "2013-05-26 14:50:58.951"
+special_features :
+"{Trailers,Commentaries,""Deleted Scenes""}",
+"{Trailers,""Deleted Scenes""}",
+"{Trailers,Commentaries,""Behind the Scenes""}",
+"{""Deleted Scenes""}",
+"{Commentaries}",
+"{Trailers,Commentaries,""Deleted Scenes"",""Behind the Scenes""}",
+"{Trailers,""Behind the Scenes""}",
+"{Commentaries,""Behind the Scenes""}",
+"{""Behind the Scenes""}",
+"{Trailers,Commentaries}",
+"{Commentaries,""Deleted Scenes""}",
+"{Trailers}",
+"{Commentaries,""Deleted Scenes"",""Behind the Scenes""}",
+"{Trailers,""Deleted Scenes"",""Behind the Scenes""}",
+"{""Deleted Scenes"",""Behind the Scenes""}"
+*/
+
+CREATE TABLE public.rental
+(
+    "rental_id" INTEGER NOT NULL,
+    "rental_date" timestamp NOT NULL, - date of rental
+    "inventory_id" integer NOT NULL,
+    "customer_id" smallint NOT NULL,
+    "return_date" timestamp, - date of return 
+    "staff_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.rental was last updated
+    PRIMARY KEY ("rental_id"),
+    FOREIGN KEY ("customer_id") REFERENCES public.customer ("customer_id"),
+    FOREIGN KEY ("inventory_id") REFERENCES public.inventory ("inventory_id"),
+    FOREIGN KEY ("staff_id") REFERENCES public.staff ("staff_id")
+);
+/*
+Columns in rental and 3 examples in each column for the high cardinality columns :
+rental_id: 2, 3, 4
+rental_date: 2005-05-24 22:54:33, 2005-05-24 23:03:39, 2005-05-24 23:04:41
+inventory_id: 1525, 1711, 2452
+customer_id: 459, 408, 333
+return_date: 2005-05-28 19:40:33, 2005-06-01 22:12:39, 2005-06-03 01:43:41
+staff_id: 1, 1, 2
+*/
+/*
+Columns in rental and all categories for the low cardinality columns :
+last_update: "2006-02-16 02:30:53"
+*/
+^"
+}, { "role": "^user^", "content": "^Retrieve the actor names for a given film title 'Dance in the Fire'.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: actor, film, film_actor.
+From these tables, I'll be using the following columns: actor.first_name, actor.last_name, actor.actor_id, film_actor.actor_id, film_actor.film_id, film.film_id.
+The SQL query I'll be generating is:
+SELECT actor.first_name, actor.last_name
+FROM actor
+INNER JOIN film_actor ON actor.actor_id = film_actor.actor_id
+INNER JOIN film ON film_actor.film_id = film.film_id
+WHERE film.title = 'Dance in the Fire';^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE public.store
+(
+    "store_id" INTEGER NOT NULL,
+    "manager_staff_id" smallint NOT NULL,
+    "address_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.store was last updated
+    PRIMARY KEY ("store_id"),
+    FOREIGN KEY ("address_id") REFERENCES public.address ("address_id"),
+    FOREIGN KEY ("manager_staff_id") REFERENCES public.staff ("staff_id")
+);
+/*
+Columns in store and 2 examples in each column for the high cardinality columns :
+store_id: 1, 2
+manager_staff_id: 1, 2
+*/
+/*
+Columns in store and all categories for the low cardinality columns :
+last_update: "2006-02-15 09:57:12"
+*/
+
+CREATE TABLE public.rental
+(
+    "rental_id" INTEGER NOT NULL,
+    "rental_date" timestamp NOT NULL, - date of rental
+    "inventory_id" integer NOT NULL,
+    "customer_id" smallint NOT NULL,
+    "return_date" timestamp, - date of return 
+    "staff_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.rental was last updated
+    PRIMARY KEY ("rental_id"),
+    FOREIGN KEY ("customer_id") REFERENCES public.customer ("customer_id"),
+    FOREIGN KEY ("inventory_id") REFERENCES public.inventory ("inventory_id"),
+    FOREIGN KEY ("staff_id") REFERENCES public.staff ("staff_id")
+);
+/*
+Columns in rental and 3 examples in each column for the high cardinality columns :
+rental_id: 2, 3, 4
+rental_date: 2005-05-24 22:54:33, 2005-05-24 23:03:39, 2005-05-24 23:04:41
+inventory_id: 1525, 1711, 2452
+customer_id: 459, 408, 333
+return_date: 2005-05-28 19:40:33, 2005-06-01 22:12:39, 2005-06-03 01:43:41
+staff_id: 1, 1, 2
+*/
+/*
+Columns in rental and all categories for the low cardinality columns :
+last_update: "2006-02-16 02:30:53"
+*/
+
+CREATE TABLE public.staff
+(
+    "staff_id" INTEGER NOT NULL,
+    "first_name" TEXT NOT NULL, - first name of the staff
+    "last_name" TEXT NOT NULL, - last name of the staff
+    "address_id" smallint NOT NULL,
+    "email" TEXT, - email id of the staff
+    "store_id" smallint NOT NULL,
+    "active" boolean NOT NULL, - staff is active or not
+    "username" TEXT NOT NULL, - username of the staff
+    "password" TEXT, - password of the staff
+    "last_update" timestamp NOT NULL, - when this table public.staff was last updated
+    "picture" bytea,
+    PRIMARY KEY ("staff_id"),
+    FOREIGN KEY ("address_id") REFERENCES public.address ("address_id")
+);
+/*
+Columns in staff and 2 examples in each column for the high cardinality columns :
+first_name: "Mike", "Jon"
+last_name: "Hillyer", "Stephens"
+email: "Mike.Hillyer@sakilastaff.com", "Jon.Stephens@sakilastaff.com"
+staff_id: 1, 1, 2
+*/
+/*
+Columns in staff and all categories for the low cardinality columns :
+last_update: "2006-05-16 16:13:11.79328"
+password: "8cb2237d0679ca88db6464eac60da96345513964"
+*/
+
+CREATE TABLE public.payment
+(
+    "payment_id" INTEGER NOT NULL,
+    "customer_id" smallint NOT NULL,
+    "staff_id" smallint NOT NULL,
+    "rental_id" integer NOT NULL,
+    "amount" numeric(5, 2) NOT NULL, - payment amount
+    "payment_date" timestamp NOT NULL, - date of the payment
+    PRIMARY KEY ("payment_id"),
+    FOREIGN KEY ("customer_id") REFERENCES public.customer ("customer_id"),
+    FOREIGN KEY ("rental_id") REFERENCES public.rental ("rental_id"),
+    FOREIGN KEY ("staff_id") REFERENCES public.staff ("staff_id")
+);
+/*
+Columns in payment and 3 examples in each column for the high cardinality columns :
+payment_id: 17503, 17504, 17505
+customer_id: 341, 341, 341
+staff_id: 2, 1, 1
+rental_id: 1520, 1778, 1849
+amount: 7.99, 1.99, 7.99
+payment_date: 2007-02-15 22:25:46.996577, 2007-02-16 17:23:14.996577, 2007-02-16 22:41:45.996577
+*/
+/*
+Columns in payment and all categories for the low cardinality columns :
+none
+*/
+^"
+}, { "role": "^user^", "content": "^List the staff members who are currently active.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: staff.
+From these tables, I'll be using the following columns: first_name, last_name.
+The SQL query I'll be generating is:
+SELECT first_name, last_name
+FROM staff
+WHERE active = TRUE
+LIMIT 20;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+CREATE TABLE public.country
+(
+    "country_id" INTEGER NOT NULL,
+    "country" TEXT NOT NULL, - name of country
+    "last_update" timestamp NOT NULL, - when this table public.country was last updated
+    PRIMARY KEY ("country_id")
+);
+/*
+Columns in country and 3 examples in each column for the high cardinality columns :
+country_id: 49 , 50, 51
+city : "Italy", "Japan", "Kazakstan"
+*/
+/*
+Columns in country and all categories for the low cardinality columns :
+last_update: "2006-02-15 09:44:00"
+*/
+
+CREATE TABLE public.actor
+(
+    "actor_id" INTEGER NOT NULL,
+    "first_name" TEXT NOT NULL, - first name of actor
+    "last_name" TEXT NOT NULL, - last name of actor
+    "last_update" timestamp NOT NULL, - when this table public.actor was last updated 
+    PRIMARY KEY ("actor_id")
+);
+/*
+Columns in actor and 3 examples in each column for the high cardinality columns :
+actor_id: 1 , 2 , 3
+first_name : "Penelope", "Nick", "Ed"
+last_name : "Guiness", "Wahlberg", "Chase"
+*/
+/*
+Columns in actor and all categories for the low cardinality columns :
+last_update : "2013-05-26 14:47:57.62"
+*/
+
+CREATE TABLE public.film_actor
+(
+    "actor_id" smallint NOT NULL,
+    "film_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.film_actor was last updated
+    PRIMARY KEY ("actor_id", "film_id"),
+    FOREIGN KEY ("actor_id") REFERENCES public.actor ("actor_id"), 
+    FOREIGN KEY ("film_id") REFERENCES public.film ("film_id") 
+);
+/*
+Columns in film_actor and 3 examples in each column for the high cardinality columns :
+actor_id: 1 , 9, 8
+film_id: 23 , 30, 532
+*/
+/*
+Columns in film_actor and all categories for the low cardinality columns :
+last_update: "2006-02-15 10:05:03"
+*/
+
+CREATE TABLE public.film
+(
+    "film_id" INTEGER NOT NULL,
+    "title" TEXT NOT NULL, - title of the film
+    "description" TEXT, - description of the film
+    "release_year" TEXT, - release year of the film
+    "language_id" smallint NOT NULL,
+    "rental_duration" smallint NOT NULL, - rental duration of the film
+    "rental_rate" numeric(4, 2) NOT NULL DEFAULT 4.99, rental rate of the film
+    "length" smallint, - length of the film
+    "replacement_cost" numeric(5, 2) NOT NULL, - replacement cost of the film
+    "rating" mpaa_rating, - rating of the film
+    "last_update" timestamp NOT NULL, - when this table public.film was last updated
+    "special_features" TEXT[], - special features of the film
+    "fulltext" TEXT NOT NULL, - fulltext of the film as keywords
+    PRIMARY KEY ("film_id"),
+    FOREIGN KEY ("language_id") REFERENCES public.language ("language_id")
+);
+/*
+Columns in film and 3 examples in each column for the high cardinality columns :
+customer_id: 133, 384, 8
+title: "Chamber Italian", "Grosse Wonderful", "Airport Pollock"
+length: 117, 49, 54
+fulltext: "'chamber':1 'fate':4 'husband':11 'italian':2 'monkey':16 'moos':8 'must':13 'nigeria':18 'overcom':14 'reflect':5", 
+          "'australia':18 'cat':8 'drama':5 'epic':4 'explor':11 'gross':1 'moos':16 'must':13 'redeem':14 'wonder':2" ,
+          "'airport':1 'ancient':18 'confront':14 'epic':4 'girl':11 'india':19 'monkey':16 'moos':8 'must':13 'pollock':2 'tale':5"
+*/
+/*
+Columns in film and all categories for the low cardinality columns :
+rental_rate: 2.99, 4.99, 0.99
+release_year: 2006
+rating: "PG", "R", "NC-17", "PG-13", "G"
+last_update: "2013-05-26 14:50:58.951"
+special_features :
+"{Trailers,Commentaries,""Deleted Scenes""}",
+"{Trailers,""Deleted Scenes""}",
+"{Trailers,Commentaries,""Behind the Scenes""}",
+"{""Deleted Scenes""}",
+"{Commentaries}",
+"{Trailers,Commentaries,""Deleted Scenes"",""Behind the Scenes""}",
+"{Trailers,""Behind the Scenes""}",
+"{Commentaries,""Behind the Scenes""}",
+"{""Behind the Scenes""}",
+"{Trailers,Commentaries}",
+"{Commentaries,""Deleted Scenes""}",
+"{Trailers}",
+"{Commentaries,""Deleted Scenes"",""Behind the Scenes""}",
+"{Trailers,""Deleted Scenes"",""Behind the Scenes""}",
+"{""Deleted Scenes"",""Behind the Scenes""}"
+*/
+
+CREATE TABLE public.rental
+(
+    "rental_id" INTEGER NOT NULL,
+    "rental_date" timestamp NOT NULL, - date of rental
+    "inventory_id" integer NOT NULL,
+    "customer_id" smallint NOT NULL,
+    "return_date" timestamp, - date of return 
+    "staff_id" smallint NOT NULL,
+    "last_update" timestamp NOT NULL, - when this table public.rental was last updated
+    PRIMARY KEY ("rental_id"),
+    FOREIGN KEY ("customer_id") REFERENCES public.customer ("customer_id"),
+    FOREIGN KEY ("inventory_id") REFERENCES public.inventory ("inventory_id"),
+    FOREIGN KEY ("staff_id") REFERENCES public.staff ("staff_id")
+);
+/*
+Columns in rental and 3 examples in each column for the high cardinality columns :
+rental_id: 2, 3, 4
+rental_date: 2005-05-24 22:54:33, 2005-05-24 23:03:39, 2005-05-24 23:04:41
+inventory_id: 1525, 1711, 2452
+customer_id: 459, 408, 333
+return_date: 2005-05-28 19:40:33, 2005-06-01 22:12:39, 2005-06-03 01:43:41
+staff_id: 1, 1, 2
+*/
+/*
+Columns in rental and all categories for the low cardinality columns :
+last_update: "2006-02-16 02:30:53"
+*/
+^"
+}, { "role": "^user^", "content": "^Give name of the actor with id and count of the number of movies each actor has made. show the actor who has made the maximum number of movies first.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: actor, film_actor, film.
+From these tables, I'll be using the following columns: actor.actor_id, actor.first_name, actor.last_name, actor.actor_id, film_actor.actor_id, film.film_id, film_actor.film_id.
+The SQL query I'll be generating is:
+SELECT a.actor_id, CONCAT(a.first_name,' ',a.last_name) as actor_name,
+COUNT(*) movie_count
+FROM actor a
+JOIN film_actor fa ON a.actor_id=fa.actor_id
+JOIN film f ON f.film_id=fa.film_id
+GROUP BY 1,2
+ORDER BY COUNT(*)DESC;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List the unique categories for each film.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: actor, film_actor, film.
+From these tables, I'll be using the following columns: film.title, category.name, film.film_id, film_category.film_id, film_category.category_id, category.category_id.
+The SQL query I'll be generating is:
+SELECT film.title, category.name
+FROM film
+INNER JOIN film_category ON film.film_id = film_category.film_id
+INNER JOIN category ON film_category.category_id = category.category_id;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Get the number of films in each language^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: language, film.
+From these tables, I'll be using the following columns: language.name, film.film_id, film.language_id, language.language_id.
+The SQL query I'll be generating is:
+SELECT language.name, COUNT(film.film_id) AS film_count
+FROM film
+INNER JOIN language ON film.language_id = language.language_id
+GROUP BY language.name;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the total inventory for each store.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: store, inventory.
+From these tables, I'll be using the following columns: store.store_id, inventory.inventory_id, inventory.store_id.
+The SQL query I'll be generating is:
+SELECT store.store_id, SUM(inventory.inventory_id) AS total_inventory
+FROM store
+INNER JOIN inventory ON store.store_id = inventory.store_id
+GROUP BY store.store_id;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^What is the most recent payment made by a customer with a customer_id 101?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: payment, customer.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, payment.payment_date, payment.customer_id.
+The SQL query I'll be generating is:
+SELECT 
+    c.customer_id, 
+    CONCAT(c.first_name, ' ', c.last_name) AS customer_name, 
+    MAX(p.payment_date) AS most_recent_payment_date FROM customer c LEFT JOIN payment p ON c.customer_id = p.customer_id
+WHERE c.customer_id = '101' GROUP BY c.customer_id, customer_name;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Get the rental records for films with a rental rate greater than $5.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: rental, inventory, film.
+From these tables, I'll be using the following columns: rental.rental_id, rental.rental_date, film.title, rental.inventory_id, inventory.inventory_id, inventory.film_id, film.film_id, film.rental_rate.
+The SQL query I'll be generating is:
+SELECT rental.rental_id, rental.rental_date, film.title
+FROM rental
+INNER JOIN inventory ON rental.inventory_id = inventory.inventory_id
+INNER JOIN film ON inventory.film_id = film.film_id
+WHERE film.rental_rate > 5;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List the films that are not available in the inventory.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film, inventory.
+From these tables, I'll be using the following columns: film.title, film.film_id, inventory.film_id, inventory.inventory_id.
+The SQL query I'll be generating is:
+SELECT film.title
+FROM film
+LEFT JOIN inventory ON film.film_id = inventory.film_id
+WHERE inventory.inventory_id IS NULL;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the country with the highest number of cities^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: country, city.
+From these tables, I'll be using the following columns: country.country, city.city_id, country.country_id, city.country_id.
+The SQL query I'll be generating is:
+SELECT country.country, COUNT(city.city_id) AS city_count
+FROM country
+INNER JOIN city ON country.country_id = city.country_id
+GROUP BY country.country
+ORDER BY city_count DESC
+LIMIT 1;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List the top 10 longest films.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film.
+From these tables, I'll be using the following columns: all columns from films.
+The SQL query I'll be generating is:
+SELECT * FROM film
+ORDER BY length DESC
+LIMIT 10;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the customers who have never made a payment.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, payment.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, payment.customer_id, payment.payment_id.
+The SQL query I'll be generating is:
+SELECT c.customer_id, CONCAT(c.first_name, ' ', c.last_name) AS customer_name
+FROM customer c
+LEFT JOIN payment p ON c.customer_id = p.customer_id
+WHERE p.payment_id IS NULL;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Retrieve the customer with the highest number of rentals.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, rental.
+From these tables, I'll be using the following columns: rental.rental_id, rental.customer_id, customer.customer_id, customer.first_name, customer.last_name, payment.payment_date, payment.customer_id.
+The SQL query I'll be generating is:
+SELECT c.customer_id, CONCAT(c.first_name, ' ', c.last_name) AS customer_name, COUNT(r.rental_id) AS rental_count
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+GROUP BY c.customer_id, customer_name
+ORDER BY rental_count DESC
+LIMIT 1;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the actor who appeared in the most films^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: actorm, film_actor.
+From these tables, I'll be using the following columns: actor.actor_id, actor.first_name, actor.last_name, film_actor.film_id, film_actor.actor_id.
+The SQL query I'll be generating is:
+SELECT a.actor_id, CONCAT(a.first_name, ' ', a.last_name) AS actor_name, COUNT(fa.film_id) AS film_count
+FROM actor a
+JOIN film_actor fa ON a.actor_id = fa.actor_id
+GROUP BY a.actor_id, actor_name
+ORDER BY film_count DESC
+LIMIT 1;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Calculate the total revenue generated by the store with ID 1.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: payment, rental.
+From these tables, I'll be using the following columns: payment.amount, payment.rental_id, rental.rental_id, rental.staff_id.
+The SQL query I'll be generating is:
+SELECT SUM(p.amount) AS total_revenue
+FROM payment p
+JOIN rental r ON p.rental_id = r.rental_id
+WHERE r.staff_id = 1;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the films that were not rented by any customer.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, rental.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, rental.customer_id, customer.activebool.
+The SQL query I'll be generating is:
+SELECT DISTINCT c.customer_id, CONCAT(c.first_name, ' ', c.last_name) AS customer_name
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+WHERE c.activebool = FALSE;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the films that were rented more than once on the same day.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: rental.
+From these tables, I'll be using the following columns: rental.rental_id, rental.rental_date, rental.inventory_id, rental.customer_id.
+The SQL query I'll be generating is:
+SELECT r1.rental_id, r1.rental_date, r1.inventory_id, r1.customer_id
+FROM rental r1
+JOIN (
+    SELECT rental_date, inventory_id, customer_id, COUNT(*) AS rental_count
+    FROM rental
+    GROUP BY rental_date, inventory_id, customer_id
+    HAVING COUNT(*) > 1
+) r2 ON r1.rental_date = r2.rental_date
+   AND r1.inventory_id = r2.inventory_id
+   AND r1.customer_id = r2.customer_id;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Retrieve the top 5 customers who have paid the most in total.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, payment.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, payment.amount, payment.customer_id.
+The SQL query I'll be generating is:
+SELECT c.customer_id, c.first_name, c.last_name, SUM(p.amount) AS total_payment
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+ORDER BY total_payment DESC
+LIMIT 5;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List the customers who have made payments within date range '2023-01-01' to '2023-02-28'^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, payment.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, payment.payment_date, payment.customer_id.
+The SQL query I'll be generating is:
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+WHERE p.payment_date BETWEEN '2023-01-01' AND '2023-02-28';^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the total number of payments made each month in the year 2023.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: payment.
+From these tables, I'll be using the following columns: payment.payment_date, payment.payment_id.
+The SQL query I'll be generating is:
+SELECT DATE_TRUNC('month', payment_date) AS month, COUNT(payment_id) AS payment_count
+FROM payment
+WHERE EXTRACT(YEAR FROM payment_date) = 2023
+GROUP BY month
+ORDER BY month;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List the customers who have made payments on the current date.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, payment.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, payment.payment_date, payment.customer_id.
+The SQL query I'll be generating is:
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+WHERE DATE(p.payment_date) = CURRENT_DATE
+LIMIT 20;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the average payment amount made by each customer.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, payment.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, payment.payment_date, payment.customer_id, payment.amount.
+The SQL query I'll be generating is:
+SELECT c.customer_id, c.first_name, c.last_name, AVG(p.amount) AS avg_payment
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List the top 10 customers who have made the highest total payments.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, payment.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, payment.payment_date, payment.customer_id, payment.amount.
+The SQL query I'll be generating is:
+SELECT c.customer_id, c.first_name, c.last_name, SUM(p.amount) AS total_payment
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id, c.first_name, c.last_name
+ORDER BY total_payment DESC
+LIMIT 10;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the total revenue generated from all payments.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: payment.
+From these tables, I'll be using the following columns: amount.
+The SQL query I'll be generating is:
+SELECT SUM(amount) AS total_revenue FROM payment;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Which Category of Family Friendly films had the highest total Rental Orders?^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film, rental, film_category, category, inventory.
+From these tables, I'll be using the following columns: film.title, category.name, rental.rental_id, film.film_id, film_category.film_id, film_category.category_id, category.category_id, inventory.film_id, rental.inventory_id, inventory.inventory_id.
+The SQL query I'll be generating is:
+WITH result_table AS ( 
+  SELECT f.title, cat.name, COUNT(re.rental_id) AS num_rentals 
+  FROM 
+    film f 
+    JOIN film_category fc ON f.film_id = fc.film_id 
+    JOIN category cat ON fc.category_id = cat.category_id 
+    AND cat.name IN (
+      'Animation', 'Children', 'Classics', 
+      'Comedy', 'Family', 'Music'
+    ) 
+    JOIN inventory inv ON inv.film_id = f.film_id 
+    JOIN rental re ON re.inventory_id = inv.inventory_id 
+  GROUP BY f.title, cat.name ) 
+SELECT name, SUM(num_rentals) as total 
+FROM (SELECT * FROM result_table ) as distinct_result 
+GROUP BY name 
+ORDER BY SUM(num_rentals) DESC;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Retrieve the customers who have made payments for films that belong to 'Comedy' category^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, rental, film_category, category, inventory, film.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, rental.customer_id, rental.inventory_id, inventory.inventory_id, inventory.film_id, film.film_id, film.rating.
+The SQL query I'll be generating is:
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id
+WHERE f.rating = 'PG-13';^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the customers who have made payments for films with a duration greater than 120 minutes^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, rental, inventory, film.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, rental.customer_id, rental.inventory_id, inventory.inventory_id, inventory.film_id, film.film_id, film.length.
+The SQL query I'll be generating is:
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN rental r ON c.customer_id = r.customer_id
+JOIN inventory i ON r.inventory_id = i.inventory_id
+JOIN film f ON i.film_id = f.film_id
+WHERE f.length > 120;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List all the films that have not been rented yet.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film, inventory, rental.
+From these tables, I'll be using the following columns: film.film_id, film.title, inventory.film_id, inventory.inventory_id, rental.inventory_id, rental.rental_id.
+The SQL query I'll be generating is:
+SELECT f.film_id, f.title
+FROM film f
+LEFT JOIN inventory i ON f.film_id = i.film_id
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id
+WHERE r.rental_id IS NULL;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Retrieve the films that have not been rented in the last 30 days.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film, inventory, rental.
+From these tables, I'll be using the following columns: film.film_id, film.title, inventory.film_id, inventory.inventory_id, rental.inventory_id, rental.rental_date.
+The SQL query I'll be generating is:
+SELECT f.film_id, f.title
+FROM film f
+LEFT JOIN inventory i ON f.film_id = i.film_id
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id
+WHERE r.rental_date IS NULL OR r.rental_date < CURRENT_DATE - INTERVAL '30 days';^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the total revenue generated from renting each film, ordered from highest to lowest revenue.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film, inventory, rental, payment.
+From these tables, I'll be using the following columns: film.film_id, film.title, payment.amount, inventory.film_id, inventory.inventory_id, rental.inventory_id, rental.rental_id, payment.rental_id.
+The SQL query I'll be generating is:
+SELECT f.film_id, f.title, SUM(p.amount) AS total_revenue
+FROM film f
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+JOIN payment p ON r.rental_id = p.rental_id
+GROUP BY f.film_id, f.title
+ORDER BY total_revenue DESC;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List the films that are in the 'Action' category and have a rating of 'R'.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film, category, film_category.
+From these tables, I'll be using the following columns: film.film_id, film.title, film_category.film_id, film_category.category_id, category.category_id, category.name, film.rating.
+The SQL query I'll be generating is:
+SELECT f.film_id, f.title
+FROM film f
+JOIN film_category fc ON f.film_id = fc.film_id
+JOIN category c ON fc.category_id = c.category_id
+WHERE c.name = 'Action'
+AND f.rating = 'R';^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Retrieve the films that have been rented the least and have a rating of 'PG'.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film, inventory, rental.
+From these tables, I'll be using the following columns: film.film_id, film.title, rental.rental_id, rental.inventory_id, inventory.film_id, inventory.inventory_id, film.rating.
+The SQL query I'll be generating is:
+SELECT f.film_id, f.title, COUNT(r.rental_id) AS rental_count
+FROM film f
+LEFT JOIN inventory i ON f.film_id = i.film_id
+LEFT JOIN rental r ON i.inventory_id = r.inventory_id
+WHERE f.rating = 'PG'
+GROUP BY f.film_id, f.title
+ORDER BY rental_count ASC;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Retrieve the films that have the highest rental rate.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film.
+From these tables, I'll be using the following columns: title, rental_rate.
+The SQL query I'll be generating is:
+SELECT title, rental_rate FROM film WHERE rental_rate = ( SELECT MAX(rental_rate) FROM film);^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the films with a rental rate greater than $5.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film.
+From these tables, I'll be using the following columns: all columns.
+The SQL query I'll be generating is:
+SELECT * FROM film WHERE rental_rate > 5.0;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List all unique film ratings available.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film.
+From these tables, I'll be using the following columns: rating.
+The SQL query I'll be generating is:
+SELECT DISTINCT rating FROM film;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the customer who made the highest payment.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, payment.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, payment.customer_id, payment.amount.
+The SQL query I'll be generating is:
+SELECT c.customer_id, CONCAT(c.first_name, ' ', c.last_name) AS customer_name, MAX(p.amount) AS highest_payment
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+GROUP BY c.customer_id, customer_name
+ORDER BY highest_payment DESC
+LIMIT 1;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List the cities and their corresponding countries.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: city, country.
+From these tables, I'll be using the following columns: city.city, country.country, city.country_id, country.country_id.
+The SQL query I'll be generating is:
+SELECT ci.city, co.country FROM city ci JOIN country co ON ci.country_id = co.country_id;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Retrieve the customers who have made payments greater than $50^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, payment.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, payment.customer_id, payment.amount.
+The SQL query I'll be generating is:
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+WHERE p.amount > 50.00;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the top 10 most rented film categories and the number of times they were rented.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: category, film_category, film, inventory, rental.
+From these tables, I'll be using the following columns: category.name, rental.rental_id, category.category_id, film_category.category_id, film_category.film_id, film.film_id, inventory.film_id, inventory.inventory_id, rental.inventory_id.
+The SQL query I'll be generating is:
+SELECT c.name AS category_name, COUNT(r.rental_id) AS rental_count
+FROM category c
+JOIN film_category fc ON c.category_id = fc.category_id
+JOIN film f ON fc.film_id = f.film_id
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+GROUP BY c.name
+ORDER BY rental_count DESC
+LIMIT 10;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List the actors who have never appeared in a 'Horror' film.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: actor, category, film_category, film_actor.
+From these tables, I'll be using the following columns: actor.first_name, actor.last_name, actor.actor_id, film_actor.actor_id, film_actor.film_id, film_category.film_id, film_category.category_id, category.category_id, category.name.
+The SQL query I'll be generating is:
+SELECT a.first_name, a.last_name
+FROM actor a
+WHERE a.actor_id NOT IN (
+    SELECT fa.actor_id
+    FROM film_actor fa
+    JOIN film_category fc ON fa.film_id = fc.film_id
+    JOIN category c ON fc.category_id = c.category_id
+    WHERE c.name = 'Horror'
+);^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Retrieve the names of actors who were filmed in the movie 'Factory Dragon'.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film, film_actor, actor.
+From these tables, I'll be using the following columns: actor.first_name, actor.last_name, actor.actor_id, film_actor.actor_id, film_actor.film_id, film.film_id, film.title.
+The SQL query I'll be generating is:
+SELECT actor.first_name, actor.last_name
+FROM actor
+JOIN film_actor ON actor.actor_id = film_actor.actor_id
+JOIN film ON film_actor.film_id = film.film_id
+WHERE film.title = 'Factory Dragon';^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the top 5 actors who have appeared in the most films.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: actor, film_actor.
+From these tables, I'll be using the following columns: actor.first_name, actor.last_name, film_actor.film_id, actor.actor_id, film_actor.actor_id. 
+The SQL query I'll be generating is:
+SELECT actor.first_name, actor.last_name, COUNT(film_actor.film_id) AS film_count
+FROM actor
+JOIN film_actor ON actor.actor_id = film_actor.actor_id
+GROUP BY actor.first_name, actor.last_name
+ORDER BY film_count DESC
+LIMIT 5;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^List films that have the same actors as the movie 'Date Speed'.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: film, film_actor.
+From these tables, I'll be using the following columns: film.film_id, film.title, film_actor.film_id, film_actor.actor_id.
+The SQL query I'll be generating is:
+SELECT DISTINCT film.title
+FROM film
+JOIN film_actor ON film.film_id = film_actor.film_id
+WHERE film_actor.actor_id IN (
+    SELECT actor_id
+    FROM film
+    JOIN film_actor ON film.film_id = film_actor.film_id
+    WHERE film.title = 'Date Speed'
+) AND film.title != 'Date Speed';^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the actors who have appeared in films with the highest rental rates.^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: actor, film_actor, film, rental.
+From these tables, I'll be using the following columns: actor.first_name, actor.last_name, actor.actor_id, film.rental_rate, film_actor.actor_id, film_actor.film_id, film.film_id.
+The SQL query I'll be generating is:
+SELECT DISTINCT actor.first_name, actor.last_name
+FROM actor
+JOIN film_actor ON actor.actor_id = film_actor.actor_id
+JOIN film ON film_actor.film_id = film.film_id
+WHERE film.rental_rate = (SELECT MAX(rental_rate)FROM film);^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the actors who have appeared in films in which they also directed^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: actor, film, film_actor.
+From these tables, I'll be using the following columns: actor.first_name, actor.last_name, actor.actor_id, film.director_id, film_actor.actor_id, film_actor.film_id, film.film_id.
+The SQL query I'll be generating is:
+SELECT DISTINCT actor.first_name, actor.last_name
+FROM actor
+JOIN film_actor ON actor.actor_id = film_actor.actor_id
+JOIN film ON film_actor.film_id = film.film_id
+WHERE actor.actor_id IN (
+    SELECT DISTINCT actor_id
+    FROM film
+    WHERE film.director_id = actor.actor_id
+);^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Find the number of films each actor has appeared in^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: actor, film_actor.
+From these tables, I'll be using the following columns: actor.first_name, actor.last_name, actor.actor_id, film_actor.film_id, film_actor.actor_id.
+The SQL query I'll be generating is:
+SELECT actor.first_name, actor.last_name, COUNT(film_actor.film_id) AS film_count
+FROM actor
+LEFT JOIN film_actor ON actor.actor_id = film_actor.actor_id
+GROUP BY actor.first_name, actor.last_name
+ORDER BY film_count DESC;^" }
+    ]
+}{
+    "messages": [
+        { "role": "^system^", "content":"^You are an assistant that is an expert in generating sqlite SQL queries.
+Having the access to database content, generate a correct sqlite SQL query for the given question.
+### Database content ###
+ 
+
+^"
+}, { "role": "^user^", "content": "^Retrieve the customers who have made payments less than $3^" }, { "role": "^assistant^", "content": "^To
+construct the query, I'll be working with the following tables: customer, payment.
+From these tables, I'll be using the following columns: customer.customer_id, customer.first_name, customer.last_name, payment.customer_id, payment.amount.
+The SQL query I'll be generating is:
+SELECT c.customer_id, c.first_name, c.last_name
+FROM customer c
+JOIN payment p ON c.customer_id = p.customer_id
+WHERE p.amount < 3.00;^" }
+    ]
+}
