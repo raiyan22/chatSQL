@@ -19,9 +19,9 @@ System prompt is very specific in our case. The initial instruction will start l
 You are an assistant that is an expert in generating sqlite SQL queries.
 Having the access to database content, generate a correct sqlite SQL query for the given question.
 ### Database content ###
-
+```
 Given the database file, firstly we are to analyze all the tables and the relationships between them. After that we will have to include the information about the schema of the database we are working with in a specific format like:
-
+```
 CREATE TABLE management (
 	“Column_name” datatype_of_column, 
 	“Column_name” datatype_of_column,
@@ -404,3 +404,5 @@ with jsonlines.open('ready-for-training.jsonl', 'w') as writer:
 ```
 
 Now we start the fine tuning job.
+
+![ft](https://github.com/raiyan22/chatSQL/assets/58294098/66fd30ce-9bdf-409e-96da-f78a6bb8e843)
